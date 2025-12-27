@@ -6,7 +6,6 @@
   <title>Pranav Mehta — Portfolio</title>
   <meta name="description" content="Pranav Mehta — portfolio." />
 
-  <!-- Apple-ish font stack (SF Pro if available, otherwise system fonts) -->
   <style>
     :root{
       --bg: #ffffff;
@@ -17,9 +16,11 @@
       --panel2: #f7f7f8;
       --radius: 14px;
       --maxw: 1120px;
-      --row-h: 44px;            /* used for scroll snapping math */
       --shadow: 0 10px 30px rgba(0,0,0,0.10);
       --focus: rgba(0,122,255,0.22);
+
+      /* Single source of truth for the big display type */
+      --display: clamp(44px, 6vw, 80px);
     }
 
     *{box-sizing:border-box}
@@ -33,7 +34,6 @@
       letter-spacing: -0.02em;
       line-height: 1.2;
     }
-
     a{color:inherit; text-decoration:none}
 
     .wrap{max-width: var(--maxw); margin: 0 auto; padding: 26px 18px 56px;}
@@ -45,7 +45,6 @@
       gap: 14px;
       margin-bottom: 18px;
     }
-
     .brand{font-weight:700; font-size: 14px;}
     nav{display:flex; gap:10px; flex-wrap:wrap}
 
@@ -62,7 +61,6 @@
     }
     .pill strong{color: var(--text); font-weight:700;}
 
-    /* Layout that matches your sketch */
     .titleRow{
       display:flex;
       justify-content:center;
@@ -75,54 +73,96 @@
       letter-spacing: -0.05em;
     }
 
-    .layout{
-      display:grid;
-      grid-template-columns: 1fr 1.2fr;
-      grid-template-rows: auto auto;
-      gap: 18px;
-      align-items:start;
+    .about{
+      max-width: 85ch;
+      margin: 10px auto 0;
+      text-align:center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
     }
 
+    /* Top “I am a/an” + picker row */
     .iamRow{
-      grid-column: 1 / span 2;
       display:grid;
       grid-template-columns: 1fr 1.2fr;
       gap: 18px;
       align-items:center;
+
+      /* IMPORTANT: prevents overlap with the row below */
+      margin: 18px 0 26px;
     }
 
     .iam{
-      font-size: clamp(44px, 6vw, 80px);
+      font-size: var(--display);
       font-weight: 800;
       letter-spacing: -0.05em;
       text-align:right;
       padding-right: 10px;
+      white-space: nowrap;
+    }
+    .iam .iamPrefix{display:inline}
+    .iam .article{display:inline}
+
+    /* Main two-column layout */
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 18px;
+      align-items: start;
     }
 
-    .photo{
-      border: 1px solid var(--border);
-      background: var(--panel);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 14px;
-    }
-    .photo img{
-      width:100%;
-      height: 100%;
-      display:block;
-      border-radius: 12px;
-      object-fit: cover;
-      aspect-ratio: 4 / 3;
-      background: #e9eaee;
-    }
-
-    .contentBox{
+    .leftBox, .contentBox{
       border: 1px solid var(--border);
       background: var(--panel);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 14px;
       min-height: 360px;
+    }
+
+    /* About-me box replaces the image */
+    .leftBox{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .leftHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 10px;
+      padding: 2px 6px 8px;
+      border-bottom: 1px solid rgba(11,12,15,0.10);
+    }
+
+    .leftHeader .title{
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .leftHeader .subtitle{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .leftBody{
+      padding: 10px 6px 6px;
+      color: rgba(11,12,15,0.72);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .leftBody ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: rgba(11,12,15,0.68);
+    }
+    .leftBody li{margin: 6px 0;}
+
+    .contentBox{
       display:flex;
       flex-direction:column;
       gap: 10px;
@@ -141,7 +181,6 @@
       font-size: 14px;
       color: var(--muted);
     }
-
     .contentHeader .selected strong{
       color: var(--text);
       font-weight: 800;
@@ -160,95 +199,83 @@
       align-items:flex-start;
       transition: transform 120ms ease, box-shadow 120ms ease;
     }
-
     .item:hover{transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,0.08)}
-
     .item h3{margin:0; font-size: 14.5px; font-weight: 800;}
     .item p{margin:6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.35;}
     .meta{font-size: 12px; color: rgba(11,12,15,0.45); white-space:nowrap;}
 
-    .about{
-      max-width: 85ch;
-      margin: 10px auto 0;
-      text-align:center;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    /* ===== Picker wheel styles (adapted from your provided code) ===== */
+    /* ===== Picker wheel styles (based on your snippet) ===== */
     .picker{
       display: inline-grid;
       position: relative;
-
-      /* keep the same comfortable spacing as your snippet */
       padding-left: 1rem;
       padding-right: 1rem;
 
-      /* REMOVE BOX AROUND PICKER */
+      /* natural / unboxed */
       background: transparent;
       border: none;
       box-shadow: none;
       border-radius: 0;
 
-      font-size: 22px;
+      /* IMPORTANT: match the “I am a/an” size */
+      font-size: var(--display);
       font-feature-settings: "tnum";
-      font-weight: 600;
+      font-weight: 800;
+      letter-spacing: -0.05em;
 
       width: 100%;
       max-width: 520px;
       justify-self: end;
+
+      /* keeps it above nothing, but doesn’t overlap due to margin-bottom on .iamRow */
+      z-index: 1;
     }
 
-    /* subtle selection window */
-    .picker-window {
+    .picker-window{
       position: absolute;
       border-top: 1px solid rgba(11,12,15,0.12);
       border-bottom: 1px solid rgba(11,12,15,0.12);
-      background: rgba(0,0,0,0.02);          /* optional, makes it feel iOS-y */
-      height: 1.4em;
+      background: rgba(0,0,0,0.02);
+      height: 1.1em;
       left: 0;
       top: 50%;
-      transform: translateY(-65%);
+      transform: translateY(-55%);
       width: 100%;
       pointer-events: none;
-      border-radius: 10px;
+      border-radius: 999px;
     }
 
-    /* fade masks (keep for a natural picker feel) */
+    /* fade masks */
     .picker:before, .picker:after{
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 2.2em;
-      pointer-events: none;
-      left: 0;
+      content:'';
+      position:absolute;
+      left:0;
+      width:100%;
+      pointer-events:none;
+      height: 1.6em;
     }
     .picker:before{
-      top: -.2em;
-      background: linear-gradient(#fff, rgba(255,255,255,0.65));
+      top: -0.1em;
+      background: linear-gradient(#fff, rgba(255,255,255,0.55));
     }
     .picker:after{
-      bottom: -.2em;
-      height: 2.4em;
-      background: linear-gradient(rgba(255,255,255,0.65), #fff);
+      bottom: -0.1em;
+      background: linear-gradient(rgba(255,255,255,0.55), #fff);
     }
 
     /* Hide scrollbars */
-    .picker ul{
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    .picker ul{ -ms-overflow-style: none; scrollbar-width: none; }
     .picker ul::-webkit-scrollbar{ display:none; }
 
     .picker-role{
-      max-height: 4em;
+      /* show roughly 3 lines in view */
+      max-height: 3.3em;
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
 
-      /* padding makes room above/below so snap aligns to center */
-      padding-bottom: 3em;
-      padding-top: 3em;
+      /* vertical padding for center snapping */
+      padding-top: 2.2em;
+      padding-bottom: 2.2em;
 
       margin: 0;
       list-style: none;
@@ -257,45 +284,33 @@
 
     .picker-role li{
       scroll-snap-align: center;
-      height: 1.4em;
+      height: 1.1em;
       text-align: center;
-      word-spacing: .2em;
-      color: rgba(11,12,15,0.35);
-      font-weight: 700;
+      color: rgba(11,12,15,0.20);
       user-select: none;
-    }
-
-    .picker-role li.is-active{
-      color: var(--text);
       font-weight: 800;
-      letter-spacing: -0.01em;
+      line-height: 1.1;
+      white-space: nowrap;
     }
-
-    .picker:focus-within{ box-shadow: 0 0 0 4px var(--focus); border-radius: 12px; }
+    .picker-role li.is-active{ color: var(--text); }
 
     /* Mobile */
     @media (max-width: 880px){
-      .iamRow{grid-template-columns: 1fr;}
-      .iam{text-align:left; padding-right:0}
-      .layout{grid-template-columns: 1fr;}
       .titleRow{justify-content:flex-start}
-      .picker{justify-self: start; width: 100%; max-width: 520px;}
       .about{text-align:left; margin-left:0; margin-right:0;}
-    }
 
-    .sr-only{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
+      .iamRow{
+        grid-template-columns: 1fr;
+        margin-bottom: 22px; /* still ensure separation */
+      }
+      .iam{text-align:left; padding-right:0}
+
+      .layout{grid-template-columns: 1fr;}
+      .picker{justify-self: start; max-width: 520px;}
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -316,9 +331,11 @@
     </p>
 
     <section class="iamRow" aria-label="Role selection">
-      <div class="iam">I am a</div>
+      <div class="iam">
+        <span class="iamPrefix">I am</span>
+        <span class="article" id="articleWord">a</span>
+      </div>
 
-      <!-- iOS-style picker wheel (adapted from your snippet) -->
       <div class="picker" aria-label="Role picker">
         <div class="picker-window" aria-hidden="true"></div>
         <ul class="picker-role" id="wheelList" tabindex="0" aria-label="Select a role"></ul>
@@ -326,9 +343,23 @@
     </section>
 
     <section class="layout" aria-label="Main content">
-      <div class="photo">
-        <!-- Put your image at: /assets/hero.jpg (or change the src below) -->
-        <img src="assets/hero.jpg" alt="Photo of Pranav" />
+      <!-- About-me box (replaces image) -->
+      <div class="leftBox">
+        <div class="leftHeader">
+          <div class="title">About</div>
+          <div class="subtitle" id="aboutSubtitle">Columbia SIPA · IFEP · DAQA</div>
+        </div>
+
+        <div class="leftBody" id="aboutBox">
+          <p>
+            (Optional: put a slightly longer “About” here — 3–5 lines max.)
+          </p>
+          <ul>
+            <li>Interests: fintech policy, AI governance, macro-finance</li>
+            <li>Currently: building a portfolio of writing + research</li>
+            <li>Based in: New York</li>
+          </ul>
+        </div>
       </div>
 
       <div class="contentBox">
@@ -346,16 +377,24 @@
      * =====================
      * EDIT THIS CONFIG
      * =====================
-     * Add roles (wheel tabs) and their items.
      */
     const CONFIG = {
       name: "Pranav Mehta",
       email: "pranav.mehta@columbia.edu",
       github: "https://github.com/YOUR_GITHUB",              // <-- EDIT
       linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN", // <-- EDIT
-      about: "Replace this with one crisp paragraph: what you work on, what you write about, and what you’re looking to do next.",
+      aboutTop:
+        "Replace this with one crisp paragraph: what you work on, what you write about, and what you’re looking to do next.",
+      aboutSubtitle: "Columbia SIPA · IFEP · DAQA",
+      aboutBoxHtml: `
+        <p>(Optional: put a slightly longer “About” here — 3–5 lines max.)</p>
+        <ul>
+          <li>Interests: fintech policy, AI governance, macro-finance</li>
+          <li>Currently: building a portfolio of writing + research</li>
+          <li>Based in: New York</li>
+        </ul>
+      `,
 
-      // Each role becomes a wheel option. Add more roles by adding objects here.
       roles: [
         {
           key: "writer",
@@ -387,10 +426,15 @@
 
     const el = {
       aboutText: document.getElementById('aboutText'),
+      aboutSubtitle: document.getElementById('aboutSubtitle'),
+      aboutBox: document.getElementById('aboutBox'),
+      articleWord: document.getElementById('articleWord'),
+
       roleText: document.getElementById('roleText'),
       wheelList: document.getElementById('wheelList'),
       contentList: document.getElementById('contentList'),
       sectionTitle: document.getElementById('sectionTitle'),
+
       githubPill: document.getElementById('githubPill'),
       linkedinPill: document.getElementById('linkedinPill'),
       emailPill: document.getElementById('emailPill'),
@@ -402,22 +446,43 @@
       return `mailto:${CONFIG.email}?subject=${subject}&body=${body}`;
     }
 
-    // top links
+    // Top links
     el.githubPill.href = CONFIG.github;
     el.linkedinPill.href = CONFIG.linkedin;
     el.emailPill.href = mailto();
 
-    // about
-    el.aboutText.textContent = CONFIG.about;
+    // About content
+    el.aboutText.textContent = CONFIG.aboutTop;
+    el.aboutSubtitle.textContent = CONFIG.aboutSubtitle;
+    el.aboutBox.innerHTML = CONFIG.aboutBoxHtml;
 
-    // Build wheel (li items)
     const roles = CONFIG.roles;
 
-    // Snap math: match actual row height as closely as possible.
-    // For this picker, row height is 1.4em; with font-size 22px, 1.4em ≈ 30.8px.
-    // We'll compute it from the first LI after render for accuracy.
-    let rowH = 32;
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
 
+    // Very lightweight “a/an” rule:
+    // - uses first letter vowel check
+    // - you can override per role with role.article = "a" or "an" if needed
+    function getArticleForRole(roleLabel, roleObj){
+      if (roleObj && (roleObj.article === "a" || roleObj.article === "an")) return roleObj.article;
+
+      const s = String(roleLabel || "").trim().toLowerCase();
+      if (!s) return "a";
+
+      // If label starts with a vowel letter, use “an”
+      const first = s[0];
+      const vowel = ["a","e","i","o","u"].includes(first);
+      return vowel ? "an" : "a";
+    }
+
+    // Build wheel
     roles.forEach((r, idx) => {
       const li = document.createElement('li');
       li.textContent = r.label;
@@ -427,31 +492,19 @@
       el.wheelList.appendChild(li);
     });
 
-    // After the DOM paints, measure the real row height.
-    requestAnimationFrame(() => {
+    // Measure actual row height so snapping works even with huge type
+    let rowH = 40;
+    function measureRowH(){
       const first = el.wheelList.querySelector('li');
-      if (first) {
-        const rect = first.getBoundingClientRect();
-        if (rect.height && rect.height > 0) rowH = rect.height;
-      }
-      // Ensure starts aligned
-      el.wheelList.scrollTop = 0;
-      setActive(0, { snap: false });
-    });
+      if (!first) return;
+      const rect = first.getBoundingClientRect();
+      if (rect.height && rect.height > 0) rowH = rect.height;
+    }
 
     function getNearestIndex(){
       const scrollTop = el.wheelList.scrollTop;
       const idx = Math.round(scrollTop / rowH);
       return Math.max(0, Math.min(roles.length - 1, idx));
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
     }
 
     function renderItems(items){
@@ -484,14 +537,22 @@
 
     function setActive(index, {snap=true} = {}){
       const r = roles[index];
+
+      // Update selected text & section title
       el.roleText.textContent = r.label;
       el.sectionTitle.textContent = r.sectionTitle;
 
+      // Update “a/an”
+      el.articleWord.textContent = getArticleForRole(r.label, r);
+
+      // Active highlight in wheel
       const items = el.wheelList.querySelectorAll('li');
       items.forEach((it, i) => it.classList.toggle('is-active', i === index));
 
+      // Update content below
       renderItems(r.items);
 
+      // Snap
       if (snap){
         el.wheelList.scrollTo({ top: index * rowH, behavior: 'smooth' });
       }
@@ -534,8 +595,21 @@
       }
     });
 
-    // Init fallback (in case requestAnimationFrame measure doesn't run for some reason)
-    setActive(0, {snap:false});
+    // Init
+    requestAnimationFrame(() => {
+      measureRowH();
+      el.wheelList.scrollTop = 0;
+      setActive(0, {snap:false});
+    });
+
+    // Re-measure on resize (font-size changes with clamp)
+    window.addEventListener('resize', () => {
+      const current = getNearestIndex();
+      measureRowH();
+      // keep selection stable
+      el.wheelList.scrollTop = current * rowH;
+      setActive(current, {snap:false});
+    });
   </script>
 </body>
 </html>
