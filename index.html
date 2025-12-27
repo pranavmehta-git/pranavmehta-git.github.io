@@ -277,7 +277,6 @@
       overflow: hidden;
     }
 
-    /* The visible items container */
     .picker-items{
       display: flex;
       flex-direction: column;
@@ -311,7 +310,6 @@
       transform: scale(1);
     }
 
-    /* Highlight behind active */
     .picker-row.is-active::before{
       content: '';
       position: absolute;
@@ -330,6 +328,15 @@
       text-align: center;
       color: var(--muted);
       font-size: 12px;
+    }
+
+    /* Loading state */
+    .loading{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      color: var(--muted);
     }
 
     @media (max-width: 880px){
@@ -356,7 +363,7 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="brand">Pranav Mehta, CFA</div>
+      <div class="brand" id="brandName">Pranav Mehta, CFA</div>
       <nav>
         <a class="pill" id="githubPill" href="#" target="_blank" rel="noreferrer"><strong>GitHub</strong> ↗</a>
         <a class="pill" id="linkedinPill" href="#" target="_blank" rel="noreferrer"><strong>LinkedIn</strong> ↗</a>
@@ -390,118 +397,37 @@
         <div class="leftHeader">
           <div class="title">About me</div>
         </div>
-        <div class="leftBody" id="aboutBox"></div>
+        <div class="leftBody" id="aboutBox">
+          <div class="loading">Loading...</div>
+        </div>
       </div>
 
       <div class="contentBox">
         <div class="contentHeader">
-          <div class="selected">Selected: <strong id="roleText">Economist</strong></div>
-          <div class="selected" id="sectionTitle">Economics</div>
+          <div class="selected">Selected: <strong id="roleText">...</strong></div>
+          <div class="selected" id="sectionTitle">...</div>
         </div>
-        <div class="list" id="contentList"></div>
+        <div class="list" id="contentList">
+          <div class="loading">Loading...</div>
+        </div>
       </div>
     </section>
 
-    <footer>© 2025 Pranav Mehta. All rights reserved. Vibe-coded using Claude Code.</footer>
+    <footer>© 2025 Pranav Mehta. No artificial ingredients.* <span style="opacity:0.5; font-size:10px;">*Claude helped a little.</span></footer>
   </div>
 
   <script>
-    const CONFIG = {
-      name: "Pranav Mehta",
-      email: "pranavmehta97@gmail.com",
-      github: "https://github.com/pranavmehta-git",
-      linkedin: "https://www.linkedin.com/in/pranavmehta97/",
-      aboutTop: "I'm a researcher and writer combining quantitative methods with clear storytelling to explain how systems actually work. I work at the intersection of fintech policy, AI governance, and macro-finance.",
-      aboutBoxHtml: `
-        <div class="section-label">Education</div>
-        <ul>
-          <li>
-            <span class="role-title">Masters in Public Administration</span> · <a href="https://www.sipa.columbia.edu/" target="_blank" rel="noreferrer" class="inline-link">Columbia SIPA</a><br>
-            <span class="role-date">International Finance & Economic Policy · Data Analytics · 2024–26</span>
-          </li>
-          <li>
-            <span class="role-title">CFA Charterholder</span> · <a href="https://www.cfainstitute.org/" target="_blank" rel="noreferrer" class="inline-link">CFA Institute</a><br>
-            <span class="role-date">Passed all levels in three consecutive attempts · 2021</span>
-          </li>
-          <li>
-            <span class="role-title">BSc Electrical Engineering</span> · <a href="https://nyuad.nyu.edu/" target="_blank" rel="noreferrer" class="inline-link">NYU Abu Dhabi</a><br>
-            <span class="role-date">Full-ride merit scholar · 2015–19</span>
-          </li>
-        </ul>
-        
-        <div class="section-label">Experience</div>
-        <ul>
-          <li>
-            <span class="role-title">AI Safety Scholar</span> · <a href="https://www.matsprogram.org/" target="_blank" rel="noreferrer" class="inline-link">MATS</a><br>
-            <span class="role-date">AI governance and compute policy research · 2025</span>
-          </li>
-          <li>
-            <span class="role-title">Climate Finance Specialist</span> · <a href="https://www.ifc.org/" target="_blank" rel="noreferrer" class="inline-link">IFC, World Bank</a><br>
-            <span class="role-date">India's Draft Climate Finance Taxonomy · 2025</span>
-          </li>
-          <li>
-            <span class="role-title">Manager, FinTech</span> · <a href="https://www.centralbank.ae/" target="_blank" rel="noreferrer" class="inline-link">Central Bank of UAE</a><br>
-            <span class="role-date">CBDCs, Open Finance, regulatory frameworks · 2022–24</span>
-          </li>
-          <li>
-            <span class="role-title">Associate Consultant</span> · <a href="https://www.pwc.com/m1" target="_blank" rel="noreferrer" class="inline-link">PwC Middle East</a><br>
-            <span class="role-date">FinTech advisory and digital transformation · 2019–22</span>
-          </li>
-        </ul>
-      `,
-      roles: [
-        {
-          key: "economist",
-          label: "Economist",
-          article: "an",
-          sectionTitle: "Economics",
-          items: [
-            { title: "Caste Expenditure Gap in India", description: "Analysis of caste-based expenditure differences, landownership, and gender disparities in Uttar Pradesh.", date: "2025", href: "https://github.com/pranavmehta-git/caste-expenditure-gap-india" },
-            { title: "Detroit Water Shutoffs Analysis", description: "R-based analysis of racial and economic disparities in residential water disconnections (2010–2017).", date: "2025", href: "https://github.com/pranavmehta-git/detroit-water-shutoffs-analysis" },
-            { title: "NYC Restaurant Inspections & Income", description: "Investigation of whether restaurant inspection intensity varies across income levels in NYC census tracts.", date: "2025", href: "https://github.com/pranavmehta-git/restaurant-inspections-nyc" },
-            { title: "NYC Subway Fare Evasion Disparities", description: "Analysis of racial disparities in NYC subway fare evasion arrests using 2016 public defender data.", date: "2025", href: "https://github.com/pranavmehta-git/subway-fare-evasions-disparities" },
-            { title: "Stand Your Ground Laws & Homicide Rates", description: "Difference-in-differences analysis replicating Cheng & Hoekstra (2013) on SYG laws.", date: "2025", href: "https://github.com/pranavmehta-git/stand-your-ground-analysis" }
-          ]
-        },
-        {
-          key: "policymaker",
-          label: "Policymaker",
-          article: "a",
-          sectionTitle: "Policy & Regulation",
-          items: [
-            { title: "Digital Dirham (CBDC)", description: "Central Bank Digital Currency initiative — strategy and implementation support for the UAE's wholesale and retail CBDC.", date: "2022–24", href: "https://www.centralbank.ae/en/our-operations/fintech-digital-transformation/#!#Central%20Bank%20Digital%20Currency" },
-            { title: "Open Finance Regulation", description: "Framework for licensing, supervision, and operation of Open Finance in the UAE — enabling cross-sectoral data sharing.", date: "2023", href: "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation" },
-            { title: "Payment Token Services Regulation", description: "Regulatory framework for stablecoin and payment token services in the UAE.", date: "2023", href: "https://rulebook.centralbank.ae/en/rulebook/payment-token-services" },
-            { title: "Regulatory Sandbox Framework", description: "Sandbox conditions enabling fintech innovation with appropriate safeguards and testing protocols.", date: "2022", href: "https://rulebook.centralbank.ae/en/rulebook/sandbox" },
-            { title: "Restricted Finance Companies Regulation", description: "Licensing framework for short-term credit providers including BNPL and micro-credit.", date: "2023", href: "https://rulebook.centralbank.ae/en/rulebook/restricted-finance-companies" }
-          ]
-        },
-        {
-          key: "researcher",
-          label: "Researcher",
-          article: "a",
-          sectionTitle: "Research",
-          items: [
-            { title: "MATS Research (Forthcoming)", description: "AI safety and governance research on compute policy, scaling dynamics, and systemic risk.", date: "2025", href: "#" },
-            { title: "Muon-Ra: Quantum Random Number Generation", description: "IEEE publication on the first quantum random number generator based on muon detection from cosmic rays.", date: "2020", href: "https://ieeexplore.ieee.org/document/9159728/" },
-            { title: "Project mBridge: Connecting Economies Through CBDC", description: "Joint BIS Innovation Hub report on multi-currency cross-border CBDC payments — USD 22M+ settled in pilot.", date: "2022", href: "https://www.bis.org/publ/othp59.htm" }
-          ]
-        },
-        {
-          key: "writer",
-          label: "Writer",
-          article: "a",
-          sectionTitle: "Writing",
-          items: [
-            { title: "Canva-ssing: Notes from the SIPASA Elections", description: "On the tension between aesthetic politics and institutional constraints at SIPA.", date: "2025", href: "https://morningsidepost.com/articles/2025/11/23/canva-ssing-notes-from-the-sipasa-elections-in-the-aesthetic-age" },
-            { title: "Mehtadology", description: "My mosaic of miscellany — a Substack exploring the odd and ordinary.", date: "Ongoing", href: "https://mehtadology.substack.com/" },
-            { title: "No Artificial Ingredients: Higher Ed Grapples with AI", description: "Co-authored investigation into AI detection, academic integrity, and the future of learning.", date: "2025", href: "https://morningsidepost.com/articles/2025/10/29/no-artificial-ingredients-higher-education-grapples-with-ai" }
-          ]
-        }
-      ]
-    };
+    // ============================================
+    // All content is loaded from data.json
+    // Edit that file to update your portfolio!
+    // ============================================
+
+    let DATA = null;
+    let roles = [];
+    let currentIndex = 0;
 
     const el = {
+      brandName: document.getElementById('brandName'),
       aboutText: document.getElementById('aboutText'),
       aboutBox: document.getElementById('aboutBox'),
       articleWord: document.getElementById('articleWord'),
@@ -517,23 +443,45 @@
       arrowDown: document.getElementById('arrowDown'),
     };
 
-    // Setup static content
-    el.aboutText.textContent = CONFIG.aboutTop;
-    el.aboutBox.innerHTML = CONFIG.aboutBoxHtml;
-    el.githubPill.href = CONFIG.github;
-    el.linkedinPill.href = CONFIG.linkedin;
-    el.emailPill.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent('Hello ' + CONFIG.name)}`;
-
-    const roles = CONFIG.roles;
-    const totalRoles = roles.length;
-    let currentIndex = 0;
-
     function escapeHtml(str) {
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     function getWrappedIndex(i) {
-      return ((i % totalRoles) + totalRoles) % totalRoles;
+      const total = roles.length;
+      return ((i % total) + total) % total;
+    }
+
+    function renderAboutBox() {
+      let html = '';
+      
+      // Education section
+      if (DATA.education && DATA.education.length > 0) {
+        html += '<div class="section-label">Education</div><ul>';
+        DATA.education.forEach(item => {
+          html += `<li>
+            <span class="role-title">${escapeHtml(item.title)}</span> · 
+            <a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer" class="inline-link">${escapeHtml(item.org)}</a><br>
+            <span class="role-date">${escapeHtml(item.description)} · ${escapeHtml(item.years)}</span>
+          </li>`;
+        });
+        html += '</ul>';
+      }
+      
+      // Experience section
+      if (DATA.experience && DATA.experience.length > 0) {
+        html += '<div class="section-label">Experience</div><ul>';
+        DATA.experience.forEach(item => {
+          html += `<li>
+            <span class="role-title">${escapeHtml(item.title)}</span> · 
+            <a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer" class="inline-link">${escapeHtml(item.org)}</a><br>
+            <span class="role-date">${escapeHtml(item.description)} · ${escapeHtml(item.years)}</span>
+          </li>`;
+        });
+        html += '</ul>';
+      }
+      
+      el.aboutBox.innerHTML = html;
     }
 
     function renderPicker() {
@@ -541,9 +489,9 @@
       const nextIndex = getWrappedIndex(currentIndex + 1);
 
       el.pickerItems.innerHTML = `
-        <div class="picker-row is-prev" data-action="prev">${roles[prevIndex].label}</div>
-        <div class="picker-row is-active">${roles[currentIndex].label}</div>
-        <div class="picker-row is-next" data-action="next">${roles[nextIndex].label}</div>
+        <div class="picker-row is-prev" data-action="prev">${escapeHtml(roles[prevIndex].label)}</div>
+        <div class="picker-row is-active">${escapeHtml(roles[currentIndex].label)}</div>
+        <div class="picker-row is-next" data-action="next">${escapeHtml(roles[nextIndex].label)}</div>
       `;
     }
 
@@ -586,57 +534,87 @@
       updateDisplay();
     }
 
-    // Arrow clicks
-    el.arrowUp.addEventListener('click', () => navigate(-1));
-    el.arrowDown.addEventListener('click', () => navigate(1));
+    function setupEventListeners() {
+      // Arrow clicks
+      el.arrowUp.addEventListener('click', () => navigate(-1));
+      el.arrowDown.addEventListener('click', () => navigate(1));
 
-    // Click on prev/next rows
-    el.pickerItems.addEventListener('click', (e) => {
-      const row = e.target.closest('.picker-row');
-      if (!row) return;
-      if (row.dataset.action === 'prev') navigate(-1);
-      else if (row.dataset.action === 'next') navigate(1);
-    });
+      // Click on prev/next rows
+      el.pickerItems.addEventListener('click', (e) => {
+        const row = e.target.closest('.picker-row');
+        if (!row) return;
+        if (row.dataset.action === 'prev') navigate(-1);
+        else if (row.dataset.action === 'next') navigate(1);
+      });
 
-    // Keyboard
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      // Keyboard
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          navigate(-1);
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          navigate(1);
+        }
+      });
+
+      // Mouse wheel with debounce
+      let wheelTimeout = null;
+      el.picker.addEventListener('wheel', (e) => {
         e.preventDefault();
-        navigate(-1);
-      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        navigate(1);
+        if (wheelTimeout) return;
+        
+        navigate(e.deltaY > 0 ? 1 : -1);
+        
+        wheelTimeout = setTimeout(() => {
+          wheelTimeout = null;
+        }, 250);
+      }, { passive: false });
+
+      // Touch support
+      let touchStartY = 0;
+      el.picker.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      el.picker.addEventListener('touchend', (e) => {
+        const diff = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(diff) > 30) {
+          navigate(diff > 0 ? 1 : -1);
+        }
+      }, { passive: true });
+    }
+
+    async function init() {
+      try {
+        const response = await fetch('data.json');
+        DATA = await response.json();
+        roles = DATA.roles;
+
+        // Setup header links
+        el.brandName.textContent = DATA.name + ', CFA';
+        el.aboutText.textContent = DATA.tagline;
+        el.githubPill.href = DATA.github;
+        el.linkedinPill.href = DATA.linkedin;
+        el.emailPill.href = `mailto:${DATA.email}?subject=${encodeURIComponent('Hello ' + DATA.name)}`;
+
+        // Render static content
+        renderAboutBox();
+        
+        // Setup interactions
+        setupEventListeners();
+        
+        // Initial display
+        updateDisplay();
+
+      } catch (error) {
+        console.error('Failed to load data.json:', error);
+        el.aboutBox.innerHTML = '<div style="color:#c00;padding:8px;">Error loading data. Make sure data.json exists.</div>';
+        el.contentList.innerHTML = '<div style="color:#c00;padding:8px;">Error loading data.</div>';
       }
-    });
+    }
 
-    // Mouse wheel with debounce
-    let wheelTimeout = null;
-    el.picker.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      if (wheelTimeout) return;
-      
-      navigate(e.deltaY > 0 ? 1 : -1);
-      
-      wheelTimeout = setTimeout(() => {
-        wheelTimeout = null;
-      }, 250);
-    }, { passive: false });
-
-    // Touch support
-    let touchStartY = 0;
-    el.picker.addEventListener('touchstart', (e) => {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    el.picker.addEventListener('touchend', (e) => {
-      const diff = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(diff) > 30) {
-        navigate(diff > 0 ? 1 : -1);
-      }
-    }, { passive: true });
-
-    // Initialize
-    updateDisplay();
+    init();
   </script>
 </body>
 </html>
