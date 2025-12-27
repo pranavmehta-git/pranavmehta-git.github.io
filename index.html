@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pranav Mehta — Portfolio</title>
-  <meta name="description" content="Pranav Mehta — portfolio." />
+  <title>Pranav Mehta, CFA — Portfolio</title>
+  <meta name="description" content="Pranav Mehta, CFA — portfolio." />
 
   <style>
     :root{
@@ -17,10 +17,8 @@
       --radius: 14px;
       --maxw: 1120px;
       --shadow: 0 10px 30px rgba(0,0,0,0.10);
-      --focus: rgba(0,122,255,0.22);
-
-      /* Single source of truth for the big display type */
-      --display: clamp(44px, 6vw, 80px);
+      --display: clamp(42px, 5.5vw, 72px);
+      --box-height: 420px;
     }
 
     *{box-sizing:border-box}
@@ -35,6 +33,16 @@
       line-height: 1.2;
     }
     a{color:inherit; text-decoration:none}
+    a.inline-link{
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: rgba(11,12,15,0.3);
+      text-underline-offset: 2px;
+      transition: text-decoration-color 150ms ease;
+    }
+    a.inline-link:hover{
+      text-decoration-color: var(--text);
+    }
 
     .wrap{max-width: var(--maxw); margin: 0 auto; padding: 26px 18px 56px;}
 
@@ -58,7 +66,9 @@
       display:inline-flex;
       gap:8px;
       align-items:center;
+      transition: background 150ms ease;
     }
+    .pill:hover{background: var(--panel);}
     .pill strong{color: var(--text); font-weight:700;}
 
     .titleRow{
@@ -82,14 +92,11 @@
       line-height: 1.55;
     }
 
-    /* Top "I am a/an" + picker row */
     .iamRow{
       display:grid;
       grid-template-columns: 1fr 1.2fr;
       gap: 18px;
       align-items:center;
-
-      /* IMPORTANT: prevents overlap with the row below */
       margin: 18px 0 26px;
     }
 
@@ -101,10 +108,7 @@
       padding-right: 10px;
       white-space: nowrap;
     }
-    .iam .iamPrefix{display:inline}
-    .iam .article{display:inline}
 
-    /* Main two-column layout */
     .layout{
       display:grid;
       grid-template-columns: 1fr 1.2fr;
@@ -118,14 +122,13 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 14px;
-      min-height: 360px;
+      height: var(--box-height);
+      overflow: hidden;
     }
 
-    /* About-me box replaces the image */
     .leftBox{
       display:flex;
       flex-direction:column;
-      gap: 10px;
     }
 
     .leftHeader{
@@ -135,6 +138,7 @@
       gap: 10px;
       padding: 2px 6px 8px;
       border-bottom: 1px solid rgba(11,12,15,0.10);
+      flex-shrink: 0;
     }
 
     .leftHeader .title{
@@ -143,29 +147,56 @@
       color: var(--text);
     }
 
-    .leftHeader .subtitle{
-      font-size: 13px;
-      color: var(--muted);
-    }
-
     .leftBody{
       padding: 10px 6px 6px;
       color: rgba(11,12,15,0.72);
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: 13px;
+      line-height: 1.5;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .section-label{
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(11,12,15,0.4);
+      margin: 12px 0 6px;
+    }
+    .section-label:first-child{
+      margin-top: 0;
     }
 
     .leftBody ul{
-      margin: 10px 0 0;
-      padding-left: 18px;
-      color: rgba(11,12,15,0.68);
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
     }
-    .leftBody li{margin: 6px 0;}
+    .leftBody li{
+      margin: 6px 0;
+      padding-left: 12px;
+      position: relative;
+      font-size: 12.5px;
+    }
+    .leftBody li::before{
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: rgba(11,12,15,0.3);
+    }
+    .leftBody .role-title{
+      font-weight: 700;
+      color: var(--text);
+    }
+    .leftBody .role-date{
+      color: var(--muted);
+      font-size: 11px;
+    }
 
     .contentBox{
       display:flex;
       flex-direction:column;
-      gap: 10px;
     }
 
     .contentHeader{
@@ -175,6 +206,7 @@
       gap: 10px;
       padding: 2px 6px 8px;
       border-bottom: 1px solid rgba(11,12,15,0.10);
+      flex-shrink: 0;
     }
 
     .contentHeader .selected{
@@ -186,7 +218,14 @@
       font-weight: 800;
     }
 
-    .list{display:grid; gap:10px; padding: 10px 6px 6px;}
+    .list{
+      display:grid;
+      gap:10px;
+      padding: 10px 6px 6px;
+      flex: 1;
+      overflow-y: auto;
+      align-content: start;
+    }
 
     .item{
       padding: 12px 12px;
@@ -204,112 +243,112 @@
     .item p{margin:6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.35;}
     .meta{font-size: 12px; color: rgba(11,12,15,0.45); white-space:nowrap;}
 
-    /* ===== Picker wheel styles (based on your snippet) ===== */
+    /* ===== Simple Picker ===== */
+    .picker-container{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-self: end;
+      width: 100%;
+      max-width: 580px;
+    }
+
+    .picker-arrow{
+      font-size: 16px;
+      color: rgba(11,12,15,0.35);
+      cursor: pointer;
+      user-select: none;
+      padding: 12px;
+      transition: color 150ms ease, transform 150ms ease;
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+    .picker-arrow:hover{
+      color: rgba(11,12,15,0.7);
+      background: rgba(11,12,15,0.05);
+    }
+    .picker-arrow:active{
+      transform: scale(0.9);
+    }
+
     .picker{
-      display: inline-grid;
       position: relative;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      flex: 1;
+      overflow: hidden;
+    }
 
-      /* natural / unboxed */
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      border-radius: 0;
+    /* The visible items container */
+    .picker-items{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
 
-      /* IMPORTANT: match the "I am a/an" size */
+    .picker-row{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: calc(var(--display) * 1.2);
       font-size: var(--display);
-      font-feature-settings: "tnum";
       font-weight: 800;
       letter-spacing: -0.05em;
-
-      width: 100%;
-      max-width: 520px;
-      justify-self: end;
-
-      /* keeps it above nothing, but doesn't overlap due to margin-bottom on .iamRow */
-      z-index: 1;
-    }
-
-    .picker-window{
-      position: absolute;
-      border-top: 1px solid rgba(11,12,15,0.12);
-      border-bottom: 1px solid rgba(11,12,15,0.12);
-      background: rgba(0,0,0,0.02);
-      height: 1.1em;
-      left: 0;
-      top: 50%;
-      transform: translateY(-55%);
-      width: 100%;
-      pointer-events: none;
-      border-radius: 999px;
-    }
-
-    /* fade masks */
-    .picker:before, .picker:after{
-      content:'';
-      position:absolute;
-      left:0;
-      width:100%;
-      pointer-events:none;
-      height: 1.6em;
-    }
-    .picker:before{
-      top: -0.1em;
-      background: linear-gradient(#fff, rgba(255,255,255,0.55));
-    }
-    .picker:after{
-      bottom: -0.1em;
-      background: linear-gradient(rgba(255,255,255,0.55), #fff);
-    }
-
-    /* Hide scrollbars */
-    .picker ul{ -ms-overflow-style: none; scrollbar-width: none; }
-    .picker ul::-webkit-scrollbar{ display:none; }
-
-    .picker-role{
-      /* show roughly 3 lines in view */
-      max-height: 3.3em;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-
-      /* vertical padding for center snapping */
-      padding-top: 2.2em;
-      padding-bottom: 2.2em;
-
-      margin: 0;
-      list-style: none;
-      width: 100%;
-    }
-
-    .picker-role li{
-      scroll-snap-align: center;
-      height: 1.1em;
-      text-align: center;
-      color: rgba(11,12,15,0.20);
-      user-select: none;
-      font-weight: 800;
-      line-height: 1.1;
       white-space: nowrap;
       cursor: pointer;
-      transition: color 150ms ease;
+      transition: all 250ms ease;
+      position: relative;
     }
-    .picker-role li.is-active{ color: var(--text); }
 
-    /* Mobile */
+    .picker-row.is-prev,
+    .picker-row.is-next{
+      color: rgba(11,12,15,0.2);
+      transform: scale(0.75);
+    }
+    
+    .picker-row.is-active{
+      color: var(--text);
+      transform: scale(1);
+    }
+
+    /* Highlight behind active */
+    .picker-row.is-active::before{
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.02);
+      border-top: 1px solid rgba(11,12,15,0.08);
+      border-bottom: 1px solid rgba(11,12,15,0.08);
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    footer{
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     @media (max-width: 880px){
+      :root{
+        --box-height: auto;
+      }
       .titleRow{justify-content:flex-start}
       .about{text-align:left; margin-left:0; margin-right:0;}
-
       .iamRow{
         grid-template-columns: 1fr;
-        margin-bottom: 22px; /* still ensure separation */
+        margin-bottom: 22px;
       }
       .iam{text-align:left; padding-right:0}
-
       .layout{grid-template-columns: 1fr;}
-      .picker{justify-self: start; max-width: 520px;}
+      .picker-container{justify-self: start; max-width: 100%;}
+      .leftBox, .contentBox{
+        height: auto;
+        min-height: 300px;
+      }
     }
   </style>
 </head>
@@ -317,7 +356,7 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="brand">Pranav Mehta</div>
+      <div class="brand">Pranav Mehta, CFA</div>
       <nav>
         <a class="pill" id="githubPill" href="#" target="_blank" rel="noreferrer"><strong>GitHub</strong> ↗</a>
         <a class="pill" id="linkedinPill" href="#" target="_blank" rel="noreferrer"><strong>LinkedIn</strong> ↗</a>
@@ -329,164 +368,134 @@
       <h1>Hi, I'm Pranav!</h1>
     </div>
 
-    <p class="about" id="aboutText">
-      I'm a researcher and writer combining quantitative methods with clear storytelling to explain how systems actually work. I work at the intersection of fintech policy, AI governance, and macro-finance — using data analytics to make complex ideas accessible.
-    </p>
+    <p class="about" id="aboutText"></p>
 
     <section class="iamRow" aria-label="Role selection">
       <div class="iam">
         <span class="iamPrefix">I am</span>
-        <span class="article" id="articleWord">a</span>
+        <span class="article" id="articleWord">an</span>
       </div>
 
-      <div class="picker" aria-label="Role picker">
-        <div class="picker-window" aria-hidden="true"></div>
-        <ul class="picker-role" id="wheelList" tabindex="0" aria-label="Select a role"></ul>
+      <div class="picker-container">
+        <div class="picker-arrow" id="arrowUp" title="Previous">▲</div>
+        <div class="picker" id="picker">
+          <div class="picker-items" id="pickerItems"></div>
+        </div>
+        <div class="picker-arrow" id="arrowDown" title="Next">▼</div>
       </div>
     </section>
 
     <section class="layout" aria-label="Main content">
-      <!-- About-me box (replaces image) -->
       <div class="leftBox">
         <div class="leftHeader">
-          <div class="title">About</div>
-          <div class="subtitle" id="aboutSubtitle">Columbia SIPA · IFEP · DAQA</div>
+          <div class="title">About me</div>
         </div>
-
-        <div class="leftBody" id="aboutBox">
-          <p>
-            MIA candidate at Columbia SIPA concentrating in International Finance and Economic Policy with a specialization in Data Analytics. CFA charterholder.
-          </p>
-          <ul>
-            <li><strong>Education:</strong> Columbia SIPA '26, NYU Abu Dhabi (full-ride merit scholar)</li>
-            <li><strong>Experience:</strong> Central Bank of UAE (FinTech Office), PwC, BECO Capital</li>
-            <li><strong>Interests:</strong> fintech policy, AI governance, macro-finance</li>
-            <li><strong>Based in:</strong> New York</li>
-          </ul>
-        </div>
+        <div class="leftBody" id="aboutBox"></div>
       </div>
 
       <div class="contentBox">
         <div class="contentHeader">
-          <div class="selected">Selected: <strong id="roleText">Writer</strong></div>
-          <div class="selected" id="sectionTitle">Writing</div>
+          <div class="selected">Selected: <strong id="roleText">Economist</strong></div>
+          <div class="selected" id="sectionTitle">Economics</div>
         </div>
         <div class="list" id="contentList"></div>
       </div>
     </section>
+
+    <footer>© 2025 Pranav Mehta. All rights reserved. Vibe-coded using Claude Code.</footer>
   </div>
 
   <script>
-    /**
-     * =====================
-     * EDIT THIS CONFIG
-     * =====================
-     */
     const CONFIG = {
       name: "Pranav Mehta",
       email: "pranavmehta97@gmail.com",
       github: "https://github.com/pranavmehta-git",
       linkedin: "https://www.linkedin.com/in/pranavmehta97/",
-      aboutTop:
-        "I'm a researcher and writer combining quantitative methods with clear storytelling to explain how systems actually work. I work at the intersection of fintech policy, AI governance, and macro-finance — using data analytics to make complex ideas accessible.",
-      aboutSubtitle: "Columbia SIPA · IFEP · DAQA",
+      aboutTop: "I'm a researcher and writer combining quantitative methods with clear storytelling to explain how systems actually work. I work at the intersection of fintech policy, AI governance, and macro-finance.",
       aboutBoxHtml: `
-        <p>MIA candidate at Columbia SIPA concentrating in International Finance and Economic Policy with a specialization in Data Analytics. CFA charterholder.</p>
+        <div class="section-label">Education</div>
         <ul>
-          <li><strong>Education:</strong> Columbia SIPA '26, NYU Abu Dhabi (full-ride merit scholar)</li>
-          <li><strong>Experience:</strong> Central Bank of UAE (FinTech Office), PwC, BECO Capital</li>
-          <li><strong>Interests:</strong> fintech policy, AI governance, macro-finance</li>
-          <li><strong>Based in:</strong> New York</li>
+          <li>
+            <span class="role-title">MPA</span> · <a href="https://www.sipa.columbia.edu/" target="_blank" rel="noreferrer" class="inline-link">Columbia SIPA</a><br>
+            <span class="role-date">International Finance & Economic Policy · Data Analytics · 2024–26</span>
+          </li>
+          <li>
+            <span class="role-title">CFA Charterholder</span> · <a href="https://www.cfainstitute.org/" target="_blank" rel="noreferrer" class="inline-link">CFA Institute</a><br>
+            <span class="role-date">Passed all levels in three consecutive attempts · 2021</span>
+          </li>
+          <li>
+            <span class="role-title">BSc Electrical Engineering</span> · <a href="https://nyuad.nyu.edu/" target="_blank" rel="noreferrer" class="inline-link">NYU Abu Dhabi</a><br>
+            <span class="role-date">Full-ride merit scholar · 2015–19</span>
+          </li>
+        </ul>
+        
+        <div class="section-label">Experience</div>
+        <ul>
+          <li>
+            <span class="role-title">AI Safety Scholar</span> · <a href="https://www.matsprogram.org/" target="_blank" rel="noreferrer" class="inline-link">MATS</a><br>
+            <span class="role-date">AI governance and compute policy research · 2025</span>
+          </li>
+          <li>
+            <span class="role-title">Climate Finance Specialist</span> · <a href="https://www.ifc.org/" target="_blank" rel="noreferrer" class="inline-link">IFC, World Bank</a><br>
+            <span class="role-date">India's Draft Climate Finance Taxonomy · 2025</span>
+          </li>
+          <li>
+            <span class="role-title">Manager, FinTech</span> · <a href="https://www.centralbank.ae/" target="_blank" rel="noreferrer" class="inline-link">Central Bank of UAE</a><br>
+            <span class="role-date">CBDCs, Open Finance, regulatory frameworks · 2022–24</span>
+          </li>
+          <li>
+            <span class="role-title">Associate Consultant</span> · <a href="https://www.pwc.com/m1" target="_blank" rel="noreferrer" class="inline-link">PwC Middle East</a><br>
+            <span class="role-date">FinTech advisory and digital transformation · 2019–22</span>
+          </li>
         </ul>
       `,
-
       roles: [
-        {
-          key: "writer",
-          label: "Writer",
-          sectionTitle: "Writing",
-          items: [
-            { 
-              title: "Canva-ssing: Notes from the SIPASA Elections in the Aesthetic Age", 
-              description: "On the tension between aesthetic politics and institutional constraints at SIPA.", 
-              date: "2025", 
-              href: "https://morningsidepost.com/articles/2025/11/23/canva-ssing-notes-from-the-sipasa-elections-in-the-aesthetic-age" 
-            },
-            { 
-              title: "No Artificial Ingredients: Higher Education Grapples with AI", 
-              description: "Co-authored investigation into AI detection, academic integrity, and the future of learning.", 
-              date: "2025", 
-              href: "https://morningsidepost.com/articles/2025/10/29/no-artificial-ingredients-higher-education-grapples-with-ai" 
-            },
-            { 
-              title: "Mehtadology", 
-              description: "My mosaic of miscellany — a Substack exploring the odd and ordinary.", 
-              date: "Ongoing", 
-              href: "https://mehtadology.substack.com/" 
-            }
-          ]
-        },
-        {
-          key: "researcher",
-          label: "Researcher",
-          sectionTitle: "Research",
-          items: [
-            { 
-              title: "Project mBridge: Connecting Economies Through CBDC", 
-              description: "Joint BIS Innovation Hub report on multi-currency cross-border CBDC payments with real-value pilot transactions.", 
-              date: "2022", 
-              href: "https://www.bis.org/publ/othp59.htm" 
-            },
-            { 
-              title: "Muon-Ra: Quantum Random Number Generation from Cosmic Rays", 
-              description: "IEEE publication on the first quantum random number generator based on muon detection.", 
-              date: "2020", 
-              href: "https://ieeexplore.ieee.org/document/9159728/" 
-            },
-            { 
-              title: "MATS Research (Forthcoming)", 
-              description: "AI safety research — details coming soon.", 
-              date: "2025", 
-              href: "#" 
-            }
-          ]
-        },
         {
           key: "economist",
           label: "Economist",
           article: "an",
           sectionTitle: "Economics",
           items: [
-            { 
-              title: "Stand Your Ground Laws & Homicide Rates", 
-              description: "Difference-in-differences analysis replicating Cheng & Hoekstra (2013) on SYG laws.", 
-              date: "2025", 
-              href: "https://github.com/pranavmehta-git/stand-your-ground-analysis" 
-            },
-            { 
-              title: "Detroit Water Shutoffs Analysis", 
-              description: "R-based analysis of racial and economic disparities in residential water disconnections (2010–2017).", 
-              date: "2025", 
-              href: "https://github.com/pranavmehta-git/detroit-water-shutoffs-analysis" 
-            },
-            { 
-              title: "NYC Subway Fare Evasion Disparities", 
-              description: "Analysis of racial disparities in NYC subway fare evasion arrests using 2016 public defender data.", 
-              date: "2025", 
-              href: "https://github.com/pranavmehta-git/subway-fare-evasions-disparities" 
-            },
-            { 
-              title: "Caste Expenditure Gap in India", 
-              description: "Analysis of caste-based expenditure differences, landownership, and gender disparities in Uttar Pradesh.", 
-              date: "2025", 
-              href: "https://github.com/pranavmehta-git/caste-expenditure-gap-india" 
-            },
-            { 
-              title: "NYC Restaurant Inspections & Income", 
-              description: "Investigation of whether restaurant inspection intensity varies across income levels in NYC census tracts.", 
-              date: "2025", 
-              href: "https://github.com/pranavmehta-git/restaurant-inspections-nyc" 
-            }
+            { title: "Caste Expenditure Gap in India", description: "Analysis of caste-based expenditure differences, landownership, and gender disparities in Uttar Pradesh.", date: "2025", href: "https://github.com/pranavmehta-git/caste-expenditure-gap-india" },
+            { title: "Detroit Water Shutoffs Analysis", description: "R-based analysis of racial and economic disparities in residential water disconnections (2010–2017).", date: "2025", href: "https://github.com/pranavmehta-git/detroit-water-shutoffs-analysis" },
+            { title: "NYC Restaurant Inspections & Income", description: "Investigation of whether restaurant inspection intensity varies across income levels in NYC census tracts.", date: "2025", href: "https://github.com/pranavmehta-git/restaurant-inspections-nyc" },
+            { title: "NYC Subway Fare Evasion Disparities", description: "Analysis of racial disparities in NYC subway fare evasion arrests using 2016 public defender data.", date: "2025", href: "https://github.com/pranavmehta-git/subway-fare-evasions-disparities" },
+            { title: "Stand Your Ground Laws & Homicide Rates", description: "Difference-in-differences analysis replicating Cheng & Hoekstra (2013) on SYG laws.", date: "2025", href: "https://github.com/pranavmehta-git/stand-your-ground-analysis" }
+          ]
+        },
+        {
+          key: "policymaker",
+          label: "Policymaker",
+          article: "a",
+          sectionTitle: "Policy & Regulation",
+          items: [
+            { title: "Digital Dirham (CBDC)", description: "Central Bank Digital Currency initiative — strategy and implementation support for the UAE's wholesale and retail CBDC.", date: "2022–24", href: "https://www.centralbank.ae/en/our-operations/fintech-digital-transformation/#!#Central%20Bank%20Digital%20Currency" },
+            { title: "Open Finance Regulation", description: "Framework for licensing, supervision, and operation of Open Finance in the UAE — enabling cross-sectoral data sharing.", date: "2023", href: "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation" },
+            { title: "Payment Token Services Regulation", description: "Regulatory framework for stablecoin and payment token services in the UAE.", date: "2023", href: "https://rulebook.centralbank.ae/en/rulebook/payment-token-services" },
+            { title: "Regulatory Sandbox Framework", description: "Sandbox conditions enabling fintech innovation with appropriate safeguards and testing protocols.", date: "2022", href: "https://rulebook.centralbank.ae/en/rulebook/sandbox" },
+            { title: "Restricted Finance Companies Regulation", description: "Licensing framework for short-term credit providers including BNPL and micro-credit.", date: "2023", href: "https://rulebook.centralbank.ae/en/rulebook/restricted-finance-companies" }
+          ]
+        },
+        {
+          key: "researcher",
+          label: "Researcher",
+          article: "a",
+          sectionTitle: "Research",
+          items: [
+            { title: "MATS Research (Forthcoming)", description: "AI safety and governance research on compute policy, scaling dynamics, and systemic risk.", date: "2025", href: "#" },
+            { title: "Muon-Ra: Quantum Random Number Generation", description: "IEEE publication on the first quantum random number generator based on muon detection from cosmic rays.", date: "2020", href: "https://ieeexplore.ieee.org/document/9159728/" },
+            { title: "Project mBridge: Connecting Economies Through CBDC", description: "Joint BIS Innovation Hub report on multi-currency cross-border CBDC payments — USD 22M+ settled in pilot.", date: "2022", href: "https://www.bis.org/publ/othp59.htm" }
+          ]
+        },
+        {
+          key: "writer",
+          label: "Writer",
+          article: "a",
+          sectionTitle: "Writing",
+          items: [
+            { title: "Canva-ssing: Notes from the SIPASA Elections", description: "On the tension between aesthetic politics and institutional constraints at SIPA.", date: "2025", href: "https://morningsidepost.com/articles/2025/11/23/canva-ssing-notes-from-the-sipasa-elections-in-the-aesthetic-age" },
+            { title: "Mehtadology", description: "My mosaic of miscellany — a Substack exploring the odd and ordinary.", date: "Ongoing", href: "https://mehtadology.substack.com/" },
+            { title: "No Artificial Ingredients: Higher Ed Grapples with AI", description: "Co-authored investigation into AI detection, academic integrity, and the future of learning.", date: "2025", href: "https://morningsidepost.com/articles/2025/10/29/no-artificial-ingredients-higher-education-grapples-with-ai" }
           ]
         }
       ]
@@ -494,98 +503,56 @@
 
     const el = {
       aboutText: document.getElementById('aboutText'),
-      aboutSubtitle: document.getElementById('aboutSubtitle'),
       aboutBox: document.getElementById('aboutBox'),
       articleWord: document.getElementById('articleWord'),
-
       roleText: document.getElementById('roleText'),
-      wheelList: document.getElementById('wheelList'),
+      pickerItems: document.getElementById('pickerItems'),
+      picker: document.getElementById('picker'),
       contentList: document.getElementById('contentList'),
       sectionTitle: document.getElementById('sectionTitle'),
-
       githubPill: document.getElementById('githubPill'),
       linkedinPill: document.getElementById('linkedinPill'),
       emailPill: document.getElementById('emailPill'),
+      arrowUp: document.getElementById('arrowUp'),
+      arrowDown: document.getElementById('arrowDown'),
     };
 
-    function mailto(){
-      const subject = encodeURIComponent(`Hello ${CONFIG.name}`);
-      const body = encodeURIComponent(`Hi ${CONFIG.name},\n\n`);
-      return `mailto:${CONFIG.email}?subject=${subject}&body=${body}`;
-    }
-
-    // Top links
+    // Setup static content
+    el.aboutText.textContent = CONFIG.aboutTop;
+    el.aboutBox.innerHTML = CONFIG.aboutBoxHtml;
     el.githubPill.href = CONFIG.github;
     el.linkedinPill.href = CONFIG.linkedin;
-    el.emailPill.href = mailto();
-
-    // About content
-    el.aboutText.textContent = CONFIG.aboutTop;
-    el.aboutSubtitle.textContent = CONFIG.aboutSubtitle;
-    el.aboutBox.innerHTML = CONFIG.aboutBoxHtml;
+    el.emailPill.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent('Hello ' + CONFIG.name)}`;
 
     const roles = CONFIG.roles;
+    const totalRoles = roles.length;
+    let currentIndex = 0;
 
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // Very lightweight "a/an" rule:
-    // - uses first letter vowel check
-    // - you can override per role with role.article = "a" or "an" if needed
-    function getArticleForRole(roleLabel, roleObj){
-      if (roleObj && (roleObj.article === "a" || roleObj.article === "an")) return roleObj.article;
-
-      const s = String(roleLabel || "").trim().toLowerCase();
-      if (!s) return "a";
-
-      // If label starts with a vowel letter, use "an"
-      const first = s[0];
-      const vowel = ["a","e","i","o","u"].includes(first);
-      return vowel ? "an" : "a";
+    function getWrappedIndex(i) {
+      return ((i % totalRoles) + totalRoles) % totalRoles;
     }
 
-    // Build wheel
-    roles.forEach((r, idx) => {
-      const li = document.createElement('li');
-      li.textContent = r.label;
-      li.dataset.index = String(idx);
-      li.setAttribute('role', 'option');
-      li.id = `role-${idx}`;
-      el.wheelList.appendChild(li);
-    });
+    function renderPicker() {
+      const prevIndex = getWrappedIndex(currentIndex - 1);
+      const nextIndex = getWrappedIndex(currentIndex + 1);
 
-    // Measure actual row height so snapping works even with huge type
-    let rowH = 40;
-    function measureRowH(){
-      const first = el.wheelList.querySelector('li');
-      if (!first) return;
-      const rect = first.getBoundingClientRect();
-      if (rect.height && rect.height > 0) rowH = rect.height;
+      el.pickerItems.innerHTML = `
+        <div class="picker-row is-prev" data-action="prev">${roles[prevIndex].label}</div>
+        <div class="picker-row is-active">${roles[currentIndex].label}</div>
+        <div class="picker-row is-next" data-action="next">${roles[nextIndex].label}</div>
+      `;
     }
 
-    function getNearestIndex(){
-      const scrollTop = el.wheelList.scrollTop;
-      const idx = Math.round(scrollTop / rowH);
-      return Math.max(0, Math.min(roles.length - 1, idx));
-    }
-
-    function renderItems(items){
+    function renderItems(items) {
       el.contentList.innerHTML = '';
-      if (!items || items.length === 0){
-        const empty = document.createElement('div');
-        empty.style.color = 'rgba(11,12,15,0.55)';
-        empty.style.padding = '8px 6px 0';
-        empty.textContent = 'No items yet — add links in CONFIG.';
-        el.contentList.appendChild(empty);
+      if (!items || items.length === 0) {
+        el.contentList.innerHTML = '<div style="color:rgba(11,12,15,0.55);padding:8px 6px;">No items yet.</div>';
         return;
       }
-
       items.forEach(it => {
         const a = document.createElement('a');
         a.className = 'item';
@@ -596,126 +563,80 @@
         }
         a.innerHTML = `
           <div>
-            <h3>${escapeHtml(it.title || '')}</h3>
-            <p>${escapeHtml(it.description || '')}</p>
+            <h3>${escapeHtml(it.title)}</h3>
+            <p>${escapeHtml(it.description)}</p>
           </div>
-          <div class="meta">${escapeHtml(it.date || '')} ↗</div>
+          <div class="meta">${escapeHtml(it.date)} ↗</div>
         `;
         el.contentList.appendChild(a);
       });
     }
 
-    let currentIndex = 0;
-    let isScrolling = false;
-    let scrollTimeout = null;
-
-    function setActive(index, {snap=true} = {}){
-      const r = roles[index];
-      currentIndex = index;
-
-      // Update selected text & section title
+    function updateDisplay() {
+      const r = roles[currentIndex];
       el.roleText.textContent = r.label;
       el.sectionTitle.textContent = r.sectionTitle;
-
-      // Update "a/an"
-      el.articleWord.textContent = getArticleForRole(r.label, r);
-
-      // Active highlight in wheel
-      const items = el.wheelList.querySelectorAll('li');
-      items.forEach((it, i) => it.classList.toggle('is-active', i === index));
-
-      // Update content below
+      el.articleWord.textContent = r.article;
+      renderPicker();
       renderItems(r.items);
-
-      // Snap scroll to the correct position
-      if (snap){
-        isScrolling = true;
-        el.wheelList.scrollTo({ top: index * rowH, behavior: 'smooth' });
-        // Clear scrolling flag after animation completes
-        if (scrollTimeout) clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          isScrolling = false;
-        }, 300);
-      }
-
-      el.wheelList.setAttribute('aria-activedescendant', `role-${index}`);
     }
 
-    // Scroll handling with improved bidirectional support
-    let scrollDebounce = null;
-    el.wheelList.addEventListener('scroll', () => {
-      if (isScrolling) return; // Skip during programmatic scrolling
-      
-      if (scrollDebounce) window.clearTimeout(scrollDebounce);
-      scrollDebounce = window.setTimeout(() => {
-        const newIndex = getNearestIndex();
-        if (newIndex !== currentIndex) {
-          setActive(newIndex, {snap: true});
-        }
-      }, 80);
-    }, {passive: true});
+    function navigate(direction) {
+      currentIndex = getWrappedIndex(currentIndex + direction);
+      updateDisplay();
+    }
 
-    // Handle scroll end to ensure snapping
-    el.wheelList.addEventListener('scrollend', () => {
-      if (isScrolling) return;
-      const newIndex = getNearestIndex();
-      if (newIndex !== currentIndex) {
-        setActive(newIndex, {snap: true});
-      }
-    }, {passive: true});
+    // Arrow clicks
+    el.arrowUp.addEventListener('click', () => navigate(-1));
+    el.arrowDown.addEventListener('click', () => navigate(1));
 
-    // Click-to-select
-    el.wheelList.addEventListener('click', (e) => {
-      const item = e.target.closest('li');
-      if (!item) return;
-      const idx = parseInt(item.dataset.index, 10);
-      setActive(idx, {snap:true});
+    // Click on prev/next rows
+    el.pickerItems.addEventListener('click', (e) => {
+      const row = e.target.closest('.picker-row');
+      if (!row) return;
+      if (row.dataset.action === 'prev') navigate(-1);
+      else if (row.dataset.action === 'next') navigate(1);
     });
 
-    // Keyboard support
-    el.wheelList.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown'){
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         e.preventDefault();
-        setActive(Math.min(roles.length - 1, currentIndex + 1), {snap:true});
-      } else if (e.key === 'ArrowUp'){
+        navigate(-1);
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         e.preventDefault();
-        setActive(Math.max(0, currentIndex - 1), {snap:true});
-      } else if (e.key === 'Home'){
-        e.preventDefault();
-        setActive(0, {snap:true});
-      } else if (e.key === 'End'){
-        e.preventDefault();
-        setActive(roles.length - 1, {snap:true});
+        navigate(1);
       }
     });
 
-    // Mouse wheel support with consistent behavior in both directions
-    el.wheelList.addEventListener('wheel', (e) => {
+    // Mouse wheel with debounce
+    let wheelTimeout = null;
+    el.picker.addEventListener('wheel', (e) => {
       e.preventDefault();
+      if (wheelTimeout) return;
       
-      // Determine direction based on deltaY
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const newIndex = Math.max(0, Math.min(roles.length - 1, currentIndex + direction));
+      navigate(e.deltaY > 0 ? 1 : -1);
       
-      if (newIndex !== currentIndex) {
-        setActive(newIndex, {snap: true});
+      wheelTimeout = setTimeout(() => {
+        wheelTimeout = null;
+      }, 250);
+    }, { passive: false });
+
+    // Touch support
+    let touchStartY = 0;
+    el.picker.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    el.picker.addEventListener('touchend', (e) => {
+      const diff = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 30) {
+        navigate(diff > 0 ? 1 : -1);
       }
-    }, {passive: false});
+    }, { passive: true });
 
-    // Init
-    requestAnimationFrame(() => {
-      measureRowH();
-      el.wheelList.scrollTop = 0;
-      setActive(0, {snap:false});
-    });
-
-    // Re-measure on resize (font-size changes with clamp)
-    window.addEventListener('resize', () => {
-      measureRowH();
-      // keep selection stable
-      el.wheelList.scrollTop = currentIndex * rowH;
-      setActive(currentIndex, {snap:false});
-    });
+    // Initialize
+    updateDisplay();
   </script>
 </body>
 </html>
