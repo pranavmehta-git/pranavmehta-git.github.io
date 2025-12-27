@@ -1,4 +1,4 @@
-# Pranav Mehta Portfolio
+# Portfolio
 
 A simple, fast portfolio site deployed on GitHub Pages.
 
