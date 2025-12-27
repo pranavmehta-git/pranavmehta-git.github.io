@@ -7,7 +7,7 @@
   
   "education": [
     {
-      "title": "Masters in Public Administration",
+      "title": "Master of Public Administration",
       "org": "Columbia SIPA",
       "url": "https://www.sipa.columbia.edu/",
       "description": "International Finance & Economic Policy · Data Analytics",
@@ -186,6 +186,64 @@
           "description": "Co-authored investigation into AI detection, academic integrity, and the future of learning.",
           "date": "2025",
           "href": "https://morningsidepost.com/articles/2025/10/29/no-artificial-ingredients-higher-education-grapples-with-ai"
+        }
+      ]
+    },
+    {
+      "key": "polyglot",
+      "label": "Polyglot",
+      "article": "a",
+      "sectionTitle": "Languages & Code",
+      "items": [
+        {
+          "title": "English",
+          "description": "★★★★★",
+          "date": "Human",
+          "href": "#"
+        },
+        {
+          "title": "Hindi",
+          "description": "★★★★★",
+          "date": "Human",
+          "href": "#"
+        },
+        {
+          "title": "Punjabi",
+          "description": "★★★☆☆",
+          "date": "Human",
+          "href": "#"
+        },
+        {
+          "title": "Python",
+          "description": "★★★★★",
+          "date": "Machine",
+          "href": "#"
+        },
+        {
+          "title": "R",
+          "description": "★★★★★",
+          "date": "Machine",
+          "href": "#"
+        },
+        {
+          "title": "Stata",
+          "description": "★★★★★",
+          "date": "Machine",
+          "href": "#"
+        }
+      ]
+    },
+    {
+      "key": "reader",
+      "label": "Reader",
+      "article": "a",
+      "sectionTitle": "Reading",
+      "items": [
+        {
+          "title": "Goodreads",
+          "description": "What I'm reading, have read, and want to read.",
+          "date": "Ongoing",
+          "href": "https://www.goodreads.com/user/show/188815812"
         }
       ]
     }
