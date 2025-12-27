@@ -4,39 +4,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pranav Mehta — Portfolio</title>
-  <meta name="description" content="Pranav Mehta — writer, researcher, economist." />
+  <meta name="description" content="Pranav Mehta — portfolio." />
 
-  <!-- SF Pro (Apple-ish) stack: uses SF Pro if available; falls back to system fonts -->
+  <!-- Apple-ish font stack (SF Pro if available, otherwise system fonts) -->
   <style>
     :root{
-      --bg: #0b0c0f;
-      --card: rgba(255,255,255,0.06);
-      --card2: rgba(255,255,255,0.08);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.68);
-      --faint: rgba(255,255,255,0.50);
-      --border: rgba(255,255,255,0.10);
-      --shadow: 0 16px 60px rgba(0,0,0,0.45);
-      --radius: 22px;
-      --radius2: 28px;
-      --maxw: 1080px;
-      --accent: #9ae6ff;
-      --accent2:#b8ffdd;
-      --focus: rgba(154,230,255,0.35);
-      --wheel-h: 240px;
+      --bg: #ffffff;
+      --text: #0b0c0f;
+      --muted: rgba(11,12,15,0.62);
+      --border: rgba(11,12,15,0.16);
+      --panel: #f3f4f6;
+      --panel2: #f7f7f8;
+      --radius: 14px;
+      --maxw: 1120px;
+      --wheel-h: 170px;
       --row-h: 44px;
-    }
-
-    /* Light mode toggle: add class "theme-light" to body */
-    body.theme-light{
-      --bg: #f4f5f7;
-      --card: rgba(0,0,0,0.04);
-      --card2: rgba(0,0,0,0.06);
-      --text: rgba(0,0,0,0.88);
-      --muted: rgba(0,0,0,0.62);
-      --faint: rgba(0,0,0,0.45);
-      --border: rgba(0,0,0,0.10);
-      --shadow: 0 16px 60px rgba(0,0,0,0.16);
+      --shadow: 0 10px 30px rgba(0,0,0,0.10);
       --focus: rgba(0,122,255,0.22);
     }
 
@@ -44,194 +27,91 @@
     html,body{height:100%}
     body{
       margin:0;
-      background: radial-gradient(1200px 600px at 20% 0%, rgba(154,230,255,0.14), transparent 55%),
-                  radial-gradient(900px 500px at 80% 10%, rgba(184,255,221,0.10), transparent 60%),
-                  var(--bg);
+      background: var(--bg);
       color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       letter-spacing: -0.02em;
-      line-height: 1.25;
-      overflow-x:hidden;
+      line-height: 1.2;
     }
 
     a{color:inherit; text-decoration:none}
-    a:hover{opacity:0.92}
 
-    .wrap{max-width: var(--maxw); margin: 0 auto; padding: 28px 18px 54px;}
+    .wrap{max-width: var(--maxw); margin: 0 auto; padding: 26px 18px 56px;}
 
     header{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
-      padding: 10px 0 22px;
+      gap: 14px;
+      margin-bottom: 18px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width: 240px;
-    }
-
-    .avatar{
-      width:42px;
-      height:42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(154,230,255,0.55), rgba(184,255,221,0.45));
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      border: 1px solid var(--border);
-    }
-
-    .brand h1{font-size: 16px; margin:0; font-weight: 680;}
-    .brand p{margin:2px 0 0; font-size: 12.5px; color: var(--muted);}
-
-    nav{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .brand{font-weight:700; font-size: 14px;}
+    nav{display:flex; gap:10px; flex-wrap:wrap}
 
     .pill{
       padding: 10px 12px;
       border-radius: 999px;
-      background: var(--card);
+      background: var(--panel2);
       border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       font-size: 13px;
       color: var(--muted);
       display:inline-flex;
       gap:8px;
       align-items:center;
     }
+    .pill strong{color: var(--text); font-weight:700;}
 
-    .pill strong{color: var(--text); font-weight: 650;}
-
-    .hero{
-      display:grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    @media (max-width: 920px){
-      .hero{grid-template-columns: 1fr;}
-      nav{justify-content:flex-start}
-      .brand{min-width: unset}
-    }
-
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.05));
-      border: 1px solid var(--border);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      overflow:hidden;
-      position:relative;
-    }
-
-    .card .inner{padding: 22px;}
-
-    .kicker{font-size: 12.5px; color: var(--muted); margin:0 0 10px;}
-
-    .title{
-      font-size: clamp(28px, 4vw, 44px);
-      margin: 0 0 12px;
-      font-weight: 750;
-      line-height: 1.02;
-      letter-spacing: -0.04em;
-    }
-
-    .subtitle{margin: 0; color: var(--muted); font-size: 15px; max-width: 62ch;}
-
-    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top: 16px;}
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
+    /* Layout that matches your sketch */
+    .titleRow{
+      display:flex;
       justify-content:center;
-      gap:10px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--card2);
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 650;
+      margin: 12px 0 18px;
+    }
+    .titleRow h1{
+      margin:0;
+      font-size: clamp(44px, 6vw, 86px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
     }
 
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(154,230,255,0.35), rgba(184,255,221,0.26));
-      border-color: rgba(154,230,255,0.35);
-    }
-
-    .btn:focus{outline: none; box-shadow: 0 0 0 4px var(--focus)}
-
-    .aboutGrid{display:grid; grid-template-columns: 1fr; gap: 12px; margin-top: 18px;}
-
-    .aboutBlock{
-      padding: 14px 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    /* Wheel section */
-    .wheelCard{
-      padding: 0;
-      display:flex;
-      flex-direction:column;
-      min-height: 420px;
-    }
-
-    .wheelHeader{
-      padding: 20px 22px 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .wheelHeader .line{
-      display:flex;
-      flex-wrap:wrap;
-      align-items: baseline;
-      gap: 10px;
-    }
-
-    .staticText{
-      font-size: 18px;
-      color: var(--muted);
-      font-weight: 560;
-    }
-
-    .dynamicText{
-      font-size: 22px;
-      font-weight: 760;
-      letter-spacing: -0.02em;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hint{margin-top: 8px; font-size: 12.5px; color: var(--faint);}
-
-    .wheelWrap{
+    .layout{
       display:grid;
-      grid-template-columns: 1fr;
-      padding: 18px 18px 0;
-      gap: 14px;
+      grid-template-columns: 1fr 1.2fr;
+      grid-template-rows: auto auto;
+      gap: 18px;
+      align-items:start;
+    }
+
+    .iamRow{
+      grid-column: 1 / span 2;
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 18px;
+      align-items:center;
+    }
+
+    .iam{
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      text-align:right;
+      padding-right: 10px;
+    }
+
+    .wheelBox{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
     }
 
     .wheel{
       height: var(--wheel-h);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(11,12,15,0.14);
+      background: rgba(255,255,255,0.7);
       position: relative;
       overflow:hidden;
     }
@@ -241,21 +121,12 @@
       position:absolute;
       inset:0;
       background: linear-gradient(180deg,
-        rgba(0,0,0,0.40),
-        rgba(0,0,0,0.06) 30%,
-        rgba(0,0,0,0.06) 70%,
-        rgba(0,0,0,0.40)
+        rgba(255,255,255,0.88),
+        rgba(255,255,255,0.12) 30%,
+        rgba(255,255,255,0.12) 70%,
+        rgba(255,255,255,0.88)
       );
       pointer-events:none;
-    }
-
-    body.theme-light .wheel::before{
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.75),
-        rgba(255,255,255,0.15) 30%,
-        rgba(255,255,255,0.15) 70%,
-        rgba(255,255,255,0.75)
-      );
     }
 
     .selectionBand{
@@ -264,10 +135,9 @@
       right: 10px;
       top: calc(50% - (var(--row-h) / 2));
       height: var(--row-h);
-      border-radius: 16px;
-      border: 1px solid rgba(154,230,255,0.35);
-      background: rgba(154,230,255,0.08);
-      box-shadow: 0 0 0 4px rgba(154,230,255,0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(0,122,255,0.30);
+      background: rgba(0,122,255,0.06);
       pointer-events:none;
     }
 
@@ -278,7 +148,6 @@
       scrollbar-width: none;
       padding: calc(var(--wheel-h)/2 - var(--row-h)/2) 0;
     }
-
     .wheelList::-webkit-scrollbar{width:0; height:0}
 
     .wheelItem{
@@ -287,68 +156,98 @@
       align-items:center;
       justify-content:center;
       scroll-snap-align: center;
-      font-size: 20px;
-      font-weight: 720;
-      color: var(--faint);
+      font-size: 22px;
+      font-weight: 760;
+      color: rgba(11,12,15,0.35);
       user-select:none;
     }
-
     .wheelItem.is-active{color: var(--text)}
 
-    .content{
-      padding: 0 18px 18px;
-      display:grid;
+    .photo{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .photo img{
+      width:100%;
+      height: 100%;
+      display:block;
+      border-radius: 12px;
+      object-fit: cover;
+      aspect-ratio: 4 / 3;
+      background: #e9eaee;
+    }
+
+    .contentBox{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      min-height: 360px;
+      display:flex;
+      flex-direction:column;
       gap: 10px;
     }
 
-    .sectionTitle{
-      padding: 6px 4px 0;
-      font-size: 12.5px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--faint);
+    .contentHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 10px;
+      padding: 2px 6px 8px;
+      border-bottom: 1px solid rgba(11,12,15,0.10);
     }
 
-    .list{
-      display:grid;
-      gap:10px;
+    .contentHeader .selected{
+      font-size: 14px;
+      color: var(--muted);
     }
+
+    .contentHeader .selected strong{
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .list{display:grid; gap:10px; padding: 10px 6px 6px;}
 
     .item{
-      padding: 14px 14px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(11,12,15,0.12);
+      background: rgba(255,255,255,0.75);
       display:flex;
       justify-content:space-between;
       gap: 14px;
       align-items:flex-start;
+      transition: transform 120ms ease, box-shadow 120ms ease;
     }
 
-    .item h3{margin:0; font-size: 14.5px; font-weight: 700;}
+    .item:hover{transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,0.08)}
+
+    .item h3{margin:0; font-size: 14.5px; font-weight: 800;}
     .item p{margin:6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.35;}
+    .meta{font-size: 12px; color: rgba(11,12,15,0.45); white-space:nowrap;}
 
-    .meta{font-size: 12px; color: var(--faint); white-space:nowrap;}
-
-    .footer{
-      margin-top: 18px;
-      color: var(--faint);
-      font-size: 12.5px;
-      display:flex;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
-      padding: 10px 2px 0;
+    .about{
+      max-width: 85ch;
+      margin: 10px auto 0;
+      text-align:center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
     }
 
-    .toggle{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color: var(--muted);
-      border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 12.5px;
-      cursor: pointer;
+    .wheelBox:focus-within, .contentBox:focus-within{box-shadow: 0 0 0 4px var(--focus), var(--shadow)}
+
+    /* Mobile */
+    @media (max-width: 880px){
+      .iamRow{grid-template-columns: 1fr;}
+      .iam{text-align:left; padding-right:0}
+      .layout{grid-template-columns: 1fr;}
+      .titleRow{justify-content:flex-start}
     }
 
     .sr-only{
@@ -367,74 +266,44 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="brand">
-        <div class="avatar" aria-hidden="true"></div>
-        <div>
-          <h1>Pranav Mehta</h1>
-          <p>Portfolio landing • links to writing + code</p>
-        </div>
-      </div>
+      <div class="brand">Pranav Mehta</div>
       <nav>
-        <a class="pill" id="githubPill" href="#" target="_blank" rel="noreferrer">
-          <strong>GitHub</strong><span aria-hidden="true">↗</span>
-        </a>
-        <a class="pill" id="emailPill" href="#">
-          <strong>Email</strong><span aria-hidden="true">✉</span>
-        </a>
-        <button class="toggle" id="themeBtn" type="button" aria-label="Toggle theme">Toggle theme</button>
+        <a class="pill" id="githubPill" href="#" target="_blank" rel="noreferrer"><strong>GitHub</strong> ↗</a>
+        <a class="pill" id="linkedinPill" href="#" target="_blank" rel="noreferrer"><strong>LinkedIn</strong> ↗</a>
+        <a class="pill" id="emailPill" href="#"><strong>Email</strong> ✉</a>
       </nav>
     </header>
 
-    <section class="hero">
-      <div class="card">
-        <div class="inner">
-          <p class="kicker">Simple landing site</p>
-          <h2 class="title">A clean, Apple-ish portfolio you can edit in one file.</h2>
-          <p class="subtitle">Add your links once, then let visitors “scroll” through what you do — writing, research, econ, whatever you want — with an iPhone timer-style wheel.</p>
+    <div class="titleRow">
+      <h1>Hi, I’m Pranav!</h1>
+    </div>
 
-          <div class="ctaRow">
-            <a class="btn primary" id="primaryCta" href="#wheel" aria-label="Jump to scroll wheel">Scroll the wheel</a>
-            <a class="btn" id="resumeBtn" href="#" target="_blank" rel="noreferrer">Resume ↗</a>
-            <a class="btn" id="linkedinBtn" href="#" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          </div>
+    <p class="about" id="aboutText">
+      (Replace this with one crisp paragraph: what you work on, what you write about, and what you’re looking to do next.)
+    </p>
 
-          <div class="aboutGrid">
-            <div class="aboutBlock" id="aboutText">
-              <strong style="color:var(--text); font-weight:700;">About</strong><br/>
-              Replace this with your short bio. Keep it ~3–6 lines. Mention the intersection you care about (e.g., fintech + policy + data), what you’re building, and what kind of collaborations you want.
-            </div>
-          </div>
+    <section class="iamRow" aria-label="Role selection">
+      <div class="iam">I am a</div>
+      <div class="wheelBox">
+        <div class="wheel" aria-label="Role wheel" role="region">
+          <div class="selectionBand" aria-hidden="true"></div>
+          <div class="wheelList" id="wheelList" tabindex="0" aria-label="Select a role"></div>
         </div>
       </div>
+    </section>
 
-      <div class="card wheelCard" id="wheel">
-        <div class="wheelHeader">
-          <div class="line">
-            <div class="staticText">Hi, I’m Pranav. I am a</div>
-            <div class="dynamicText" id="roleText">Writer</div>
-          </div>
-          <div class="hint">Scroll (or drag) the wheel • it snaps like iOS • content updates below</div>
+    <section class="layout" aria-label="Main content">
+      <div class="photo">
+        <!-- Put your image at: /assets/hero.jpg (or change the src below) -->
+        <img src="assets/hero.jpg" alt="Photo of Pranav" />
+      </div>
+
+      <div class="contentBox">
+        <div class="contentHeader">
+          <div class="selected">Selected: <strong id="roleText">Writer</strong></div>
+          <div class="selected" id="sectionTitle">Writing</div>
         </div>
-
-        <div class="wheelWrap">
-          <div class="wheel" aria-label="Role wheel" role="region">
-            <div class="selectionBand" aria-hidden="true"></div>
-            <div class="wheelList" id="wheelList" tabindex="0" aria-label="Select a role"></div>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="sectionTitle" id="sectionTitle">Writing</div>
-          <div class="list" id="contentList"></div>
-
-          <div class="footer">
-            <div>© <span id="year"></span> Pranav Mehta</div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <a class="pill" id="secondaryGithub" href="#" target="_blank" rel="noreferrer"><strong>Code</strong> ↗</a>
-              <a class="pill" id="contactLink" href="#"><strong>Contact</strong> ✉</a>
-            </div>
-          </div>
-        </div>
+        <div class="list" id="contentList"></div>
       </div>
     </section>
   </div>
@@ -442,146 +311,75 @@
   <script>
     /**
      * =====================
-     * 1) EDIT THIS CONFIG
+     * EDIT THIS CONFIG
      * =====================
-     * Add roles, links, and content cards here.
+     * Add roles (wheel tabs) and their items.
      */
     const CONFIG = {
       name: "Pranav Mehta",
-      email: "pranav.mehta@columbia.edu", // change if needed
-      github: "https://github.com/YOUR_GITHUB", // <-- EDIT
+      email: "pranav.mehta@columbia.edu",
+      github: "https://github.com/YOUR_GITHUB",       // <-- EDIT
       linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN", // <-- EDIT
-      resume: "https://example.com/your-resume.pdf", // <-- EDIT
-      about: `Replace this with your short bio. Keep it ~3–6 lines. Mention the intersection you care about (e.g., fintech + policy + data), what you’re building, and what kind of collaborations you want.`,
+      about: "Replace this with one crisp paragraph: what you work on, what you write about, and what you’re looking to do next.",
 
-      // Roles show up in the wheel. Each role has a label (wheel text) and a key.
+      // Each role becomes a wheel option. Add more roles by adding objects here.
       roles: [
         {
           key: "writer",
           label: "Writer",
           sectionTitle: "Writing",
           items: [
-            {
-              title: "No Artificial Ingredients: Higher Education Grapples with AI",
-              description: "Essay / op-ed style piece on higher ed, AI, and incentives.",
-              date: "2025",
-              href: "https://example.com/article-1" // <-- EDIT
-            },
-            {
-              title: "Diplomessy (column)",
-              description: "Wry field notes on SIPA life and everyday micro-diplomacy.",
-              date: "2024–",
-              href: "https://example.com/diplomessy" // <-- EDIT
-            },
-            {
-              title: "Sports feature: Columbia men’s tennis",
-              description: "Feature reporting on Columbia’s quiet tennis powerhouse.",
-              date: "2025",
-              href: "https://example.com/tennis-feature" // <-- EDIT
-            }
+            { title: "Article title #1", description: "One-line description.", date: "2025", href: "https://example.com" },
+            { title: "Article title #2", description: "One-line description.", date: "2024", href: "https://example.com" }
           ]
         },
         {
           key: "researcher",
           label: "Researcher",
-          sectionTitle: "Research & Projects",
+          sectionTitle: "Research",
           items: [
-            {
-              title: "Systemic AI Safety (research blueprint)",
-              description: "Mapping Basel-style systemic risk ideas to frontier AI labs.",
-              date: "2025",
-              href: "https://example.com/systemic-ai-safety" // <-- EDIT
-            },
-            {
-              title: "Open Finance frameworks (LATAM)",
-              description: "Capstone-style policy research and comparative regulation.",
-              date: "2025",
-              href: "https://example.com/open-finance" // <-- EDIT
-            }
+            { title: "Project / paper #1", description: "One-line description.", date: "2025", href: "https://example.com" }
           ]
         },
         {
           key: "economist",
           label: "Economist",
-          sectionTitle: "Economics & Analysis",
+          sectionTitle: "Economics",
           items: [
-            {
-              title: "Macro-finance writing sample",
-              description: "A clear, policy-forward memo with data and intuition.",
-              date: "2025",
-              href: "https://example.com/macro-memo" // <-- EDIT
-            },
-            {
-              title: "Applied econometrics notebooks",
-              description: "Reproducible analyses (R/Quarto) with clean plots.",
-              date: "2024–2025",
-              href: "https://example.com/econ-notebooks" // <-- EDIT
-            }
-          ]
-        },
-        {
-          key: "builder",
-          label: "Builder",
-          sectionTitle: "Code & Builds",
-          items: [
-            {
-              title: "GitHub (all repos)",
-              description: "Code, notebooks, and small utilities.",
-              date: "—",
-              href: "https://github.com/YOUR_GITHUB" // <-- EDIT
-            },
-            {
-              title: "Project: Portfolio site",
-              description: "This landing page, customizable and deployable.",
-              date: "2025",
-              href: "https://example.com/portfolio" // <-- EDIT
-            }
+            { title: "Analysis #1", description: "One-line description.", date: "2025", href: "https://example.com" }
           ]
         }
       ]
     };
 
-    /**
-     * =====================
-     * 2) PAGE WIRING
-     * =====================
-     */
     const el = {
-      year: document.getElementById('year'),
+      aboutText: document.getElementById('aboutText'),
       roleText: document.getElementById('roleText'),
       wheelList: document.getElementById('wheelList'),
       contentList: document.getElementById('contentList'),
       sectionTitle: document.getElementById('sectionTitle'),
-      aboutText: document.getElementById('aboutText'),
       githubPill: document.getElementById('githubPill'),
-      secondaryGithub: document.getElementById('secondaryGithub'),
+      linkedinPill: document.getElementById('linkedinPill'),
       emailPill: document.getElementById('emailPill'),
-      contactLink: document.getElementById('contactLink'),
-      resumeBtn: document.getElementById('resumeBtn'),
-      linkedinBtn: document.getElementById('linkedinBtn'),
-      themeBtn: document.getElementById('themeBtn'),
     };
-
-    el.year.textContent = new Date().getFullYear();
 
     function mailto(){
       const subject = encodeURIComponent(`Hello ${CONFIG.name}`);
-      const body = encodeURIComponent(`Hi ${CONFIG.name},\n\n`);
+      const body = encodeURIComponent(`Hi ${CONFIG.name},
+
+`);
       return `mailto:${CONFIG.email}?subject=${subject}&body=${body}`;
     }
 
     // top links
     el.githubPill.href = CONFIG.github;
-    el.secondaryGithub.href = CONFIG.github;
+    el.linkedinPill.href = CONFIG.linkedin;
     el.emailPill.href = mailto();
-    el.contactLink.href = mailto();
-    el.resumeBtn.href = CONFIG.resume;
-    el.linkedinBtn.href = CONFIG.linkedin;
 
     // about
-    el.aboutText.innerHTML = `<strong style="color:var(--text); font-weight:700;">About</strong><br/>${CONFIG.about}`;
+    el.aboutText.textContent = CONFIG.about;
 
-    // Build wheel items
+    // Build wheel
     const roles = CONFIG.roles;
     const rowH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--row-h'), 10) || 44;
 
@@ -591,43 +389,32 @@
       div.textContent = r.label;
       div.dataset.index = String(idx);
       div.setAttribute('role', 'option');
+      div.id = `role-${idx}`;
       el.wheelList.appendChild(div);
     });
 
-    // Helper: set active based on scroll position
     function getNearestIndex(){
       const scrollTop = el.wheelList.scrollTop;
       const idx = Math.round(scrollTop / rowH);
       return Math.max(0, Math.min(roles.length - 1, idx));
     }
 
-    function setActive(index, {snap=true} = {}){
-      const r = roles[index];
-      el.roleText.textContent = r.label;
-      el.sectionTitle.textContent = r.sectionTitle;
-
-      // mark active style
-      const items = el.wheelList.querySelectorAll('.wheelItem');
-      items.forEach((it, i) => it.classList.toggle('is-active', i === index));
-
-      // render content
-      renderItems(r.items);
-
-      // snap wheel
-      if (snap){
-        el.wheelList.scrollTo({ top: index * rowH, behavior: 'smooth' });
-      }
-
-      // a11y
-      el.wheelList.setAttribute('aria-activedescendant', `role-${index}`);
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
     }
 
     function renderItems(items){
       el.contentList.innerHTML = '';
       if (!items || items.length === 0){
         const empty = document.createElement('div');
-        empty.className = 'aboutBlock';
-        empty.innerHTML = `<strong style="color:var(--text); font-weight:700;">Nothing here yet</strong><br/>Add items for this role in the CONFIG.`;
+        empty.style.color = 'rgba(11,12,15,0.55)';
+        empty.style.padding = '8px 6px 0';
+        empty.textContent = 'No items yet — add links in CONFIG.';
         el.contentList.appendChild(empty);
         return;
       }
@@ -649,13 +436,21 @@
       });
     }
 
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
+    function setActive(index, {snap=true} = {}){
+      const r = roles[index];
+      el.roleText.textContent = r.label;
+      el.sectionTitle.textContent = r.sectionTitle;
+
+      const items = el.wheelList.querySelectorAll('.wheelItem');
+      items.forEach((it, i) => it.classList.toggle('is-active', i === index));
+
+      renderItems(r.items);
+
+      if (snap){
+        el.wheelList.scrollTo({ top: index * rowH, behavior: 'smooth' });
+      }
+
+      el.wheelList.setAttribute('aria-activedescendant', `role-${index}`);
     }
 
     // Scroll handling (debounced)
@@ -663,8 +458,7 @@
     el.wheelList.addEventListener('scroll', () => {
       if (t) window.clearTimeout(t);
       t = window.setTimeout(() => {
-        const idx = getNearestIndex();
-        setActive(idx, {snap:false});
+        setActive(getNearestIndex(), {snap:false});
       }, 60);
     }, {passive:true});
 
@@ -694,31 +488,9 @@
       }
     });
 
-    // Theme toggle (persists)
-    const THEME_KEY = 'pm_theme';
-    function applyTheme(theme){
-      document.body.classList.toggle('theme-light', theme === 'light');
-      localStorage.setItem(THEME_KEY, theme);
-    }
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved) applyTheme(saved);
-
-    el.themeBtn.addEventListener('click', () => {
-      const isLight = document.body.classList.contains('theme-light');
-      applyTheme(isLight ? 'dark' : 'light');
-    });
-
-    // Init: set ids for aria
-    [...el.wheelList.querySelectorAll('.wheelItem')].forEach((node, i) => node.id = `role-${i}`);
-
-    // Initial selection
+    // Init
     setActive(0, {snap:false});
-
-    // Ensure wheel starts centered (especially on iOS)
-    requestAnimationFrame(() => {
-      el.wheelList.scrollTop = 0;
-    });
+    requestAnimationFrame(() => { el.wheelList.scrollTop = 0; });
   </script>
 </body>
 </html>
-
