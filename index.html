@@ -212,6 +212,7 @@
     .contentBox{
       display:flex;
       flex-direction:column;
+      overflow: hidden;
     }
 
     .contentHeader{
@@ -234,12 +235,13 @@
     }
 
     .list{
-      display:grid;
+      display:flex;
+      flex-direction: column;
       gap:10px;
       padding: 10px 6px 6px;
       flex: 1;
       overflow-y: auto;
-      align-content: start;
+      overflow-x: hidden;
     }
 
     .item{
@@ -254,9 +256,13 @@
       transition: transform 120ms ease, box-shadow 120ms ease;
     }
     .item:hover{transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,0.08)}
-    .item h3{margin:0; font-size: 14.5px; font-weight: 800;}
-    .item p{margin:6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.35;}
-    .meta{font-size: 12px; color: rgba(11,12,15,0.45); white-space:nowrap;}
+    .item > div:first-child{
+      flex: 1;
+      min-width: 0;
+    }
+    .item h3{margin:0; font-size: 14.5px; font-weight: 800; word-wrap: break-word;}
+    .item p{margin:6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.35; word-wrap: break-word;}
+    .meta{font-size: 12px; color: rgba(11,12,15,0.45); white-space:nowrap; flex-shrink: 0;}
 
     /* ===== Simple Picker ===== */
     .picker-container{
@@ -312,6 +318,7 @@
       cursor: pointer;
       transition: all 250ms ease;
       position: relative;
+      padding: 4px 12px;
     }
 
     .picker-row.is-prev,
@@ -393,7 +400,7 @@
     @media (max-width: 768px) {
       :root {
         --box-height: auto;
-        --display: clamp(32px, 8vw, 44px);
+        --display: clamp(28px, 7vw, 38px);
       }
       
       .wrap {
@@ -441,7 +448,7 @@
       .iam {
         text-align: left;
         padding-right: 0;
-        font-size: clamp(28px, 7vw, 38px);
+        font-size: clamp(24px, 6vw, 32px);
       }
       
       .picker-container {
@@ -449,8 +456,18 @@
         max-width: 100%;
       }
       
+      .picker {
+        overflow: visible;
+      }
+      
       .picker-row {
         height: calc(var(--display) * 1.15);
+        font-size: clamp(24px, 6.5vw, 32px);
+      }
+      
+      .picker-row.is-prev,
+      .picker-row.is-next {
+        font-size: clamp(18px, 5vw, 24px);
       }
       
       /* Stack layout - Content first, About me second */
@@ -472,15 +489,29 @@
         height: auto;
         min-height: 280px;
         max-height: 400px;
+        overflow: hidden;
+      }
+      
+      .list {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
       .item {
         padding: 14px;
         min-height: 48px; /* Big tap targets */
+        flex-shrink: 0;
       }
       
       .item h3 {
         font-size: 14px;
+      }
+      
+      .item p {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       
       footer {
@@ -493,7 +524,7 @@
     /* Small mobile ≤480px - Full-width buttons, larger text */
     @media (max-width: 480px) {
       :root {
-        --display: clamp(28px, 9vw, 36px);
+        --display: clamp(22px, 6vw, 28px);
       }
       
       .wrap {
@@ -534,7 +565,18 @@
       }
       
       .iam {
-        font-size: clamp(24px, 8vw, 32px);
+        font-size: clamp(22px, 6vw, 28px);
+      }
+      
+      .picker-row {
+        font-size: clamp(20px, 5.5vw, 26px);
+        height: auto;
+        padding: 8px 0;
+      }
+      
+      .picker-row.is-prev,
+      .picker-row.is-next {
+        font-size: clamp(16px, 4.5vw, 20px);
       }
       
       .picker-arrow {
@@ -544,32 +586,33 @@
       
       .leftBox, .contentBox {
         min-height: 260px;
+        max-height: 380px;
         padding: 12px;
       }
       
       .item {
-        padding: 16px;
-        flex-direction: column;
-        gap: 8px;
+        padding: 14px;
+        gap: 10px;
       }
       
       .item h3 {
-        font-size: 15px;
-      }
-      
-      .item p {
         font-size: 14px;
       }
       
+      .item p {
+        font-size: 13px;
+        -webkit-line-clamp: 2;
+      }
+      
       .meta {
-        align-self: flex-end;
+        font-size: 11px;
       }
     }
 
     /* Extra small mobile ≤375px - Larger text, fewer actions visible */
     @media (max-width: 375px) {
       :root {
-        --display: clamp(24px, 10vw, 30px);
+        --display: clamp(18px, 5.5vw, 24px);
       }
       
       .wrap {
@@ -599,11 +642,17 @@
       }
       
       .iam {
-        font-size: clamp(22px, 9vw, 28px);
+        font-size: clamp(18px, 5.5vw, 24px);
       }
       
       .picker-row {
-        font-size: var(--display);
+        font-size: clamp(18px, 5vw, 22px);
+        padding: 6px 0;
+      }
+      
+      .picker-row.is-prev,
+      .picker-row.is-next {
+        font-size: clamp(14px, 4vw, 18px);
       }
       
       .leftBody {
