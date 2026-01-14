@@ -144,10 +144,10 @@
       "sectionTitle": "Research",
       "items": [
         {
-          "title": "MATS Research (Forthcoming)",
+          "title": "MATS Research",
           "description": "AI safety and governance research on compute policy, scaling dynamics, and systemic risk.",
           "date": "2025",
-          "href": "#"
+          "href": "https://github.com/pranavmehta-git/fault-line"
         },
         {
           "title": "Muon-Ra: Quantum Random Number Generation",
