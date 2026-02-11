@@ -678,6 +678,7 @@
         <a class="pill" id="githubPill" href="#" target="_blank" rel="noreferrer"><strong>GitHub</strong> <span class="arrow">↗</span></a>
         <a class="pill" id="linkedinPill" href="#" target="_blank" rel="noreferrer"><strong>LinkedIn</strong> <span class="arrow">↗</span></a>
         <a class="pill" id="emailPill" href="#"><strong>Email</strong> <span class="arrow">✉</span></a>
+        <a class="pill" id="calendlyPill" href="#" target="_blank" rel="noreferrer"><strong>Calendly</strong> <span class="arrow">↗</span></a>
       </nav>
     </header>
 
@@ -749,6 +750,7 @@
       githubPill: document.getElementById('githubPill'),
       linkedinPill: document.getElementById('linkedinPill'),
       emailPill: document.getElementById('emailPill'),
+      calendlyPill: document.getElementById('calendlyPill'),
       arrowUp: document.getElementById('arrowUp'),
       arrowDown: document.getElementById('arrowDown'),
     };
@@ -907,6 +909,7 @@
         el.githubPill.href = DATA.github;
         el.linkedinPill.href = DATA.linkedin;
         el.emailPill.href = `mailto:${DATA.email}?subject=${encodeURIComponent('Hello ' + DATA.name)}`;
+        el.calendlyPill.href = DATA.calendly;
 
         // Render static content
         renderAboutBox();
