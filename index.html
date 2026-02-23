@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pranav Mehta, CFA — Portfolio</title>
   <meta name="description" content="Pranav Mehta, CFA — portfolio." />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.svg">
 
   <style>
     :root{
@@ -733,6 +736,20 @@
     // Edit that file to update your portfolio!
     // ============================================
 
+    // --- Clean up stale service workers & caches ---
+    // A previously-registered service worker can silently intercept
+    // fetches and serve corrupted/stale responses, crashing Chrome tabs.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        registrations.forEach(function(reg) { reg.unregister(); });
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        names.forEach(function(name) { caches.delete(name); });
+      });
+    }
+
     let DATA = null;
     let roles = [];
     let currentIndex = 0;
@@ -870,18 +887,19 @@
         }
       });
 
-      // Mouse wheel with debounce
+      // Mouse wheel with debounce — passive to avoid blocking Chrome's
+      // compositor thread (non-passive wheel listeners can trigger
+      // "Page Unresponsive" / tab crashes in Chrome).
       let wheelTimeout = null;
       el.picker.addEventListener('wheel', (e) => {
-        e.preventDefault();
         if (wheelTimeout) return;
-        
+
         navigate(e.deltaY > 0 ? 1 : -1);
-        
+
         wheelTimeout = setTimeout(() => {
           wheelTimeout = null;
         }, 250);
-      }, { passive: false });
+      }, { passive: true });
 
       // Touch support
       let touchStartY = 0;
@@ -899,7 +917,8 @@
 
     async function init() {
       try {
-        const response = await fetch('data.json');
+        const response = await fetch('data.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
         DATA = await response.json();
         roles = DATA.roles;
 
