@@ -84,10 +84,16 @@
       white-space: nowrap;
       flex-shrink: 1;
       min-width: 0;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
     }
     .pill:hover{background: var(--panel);}
     .pill strong{color: var(--text); font-weight:700;}
     .pill .arrow{display: inline;}
+    .pill.copied .arrow{display:none;}
+    .pill .copied-label{display:none; color: var(--text); font-weight:700;}
+    .pill.copied .copied-label{display:inline;}
 
     .titleRow{
       display:flex;
@@ -680,7 +686,7 @@
       <nav>
         <a class="pill" id="githubPill" href="#" target="_blank" rel="noreferrer"><strong>GitHub</strong> <span class="arrow">↗</span></a>
         <a class="pill" id="linkedinPill" href="#" target="_blank" rel="noreferrer"><strong>LinkedIn</strong> <span class="arrow">↗</span></a>
-        <a class="pill" id="emailPill" href="#"><strong>Email</strong> <span class="arrow">✉</span></a>
+        <button class="pill" id="emailPill"><strong>Email</strong> <span class="copied-label">Copied!</span> <span class="arrow">✉</span></button>
         <a class="pill" id="calendlyPill" href="#" target="_blank" rel="noreferrer"><strong>Calendly</strong> <span class="arrow">↗</span></a>
       </nav>
     </header>
@@ -927,7 +933,12 @@
         el.aboutText.textContent = DATA.tagline;
         el.githubPill.href = DATA.github;
         el.linkedinPill.href = DATA.linkedin;
-        el.emailPill.href = `mailto:${DATA.email}?subject=${encodeURIComponent('Hello ' + DATA.name)}`;
+        el.emailPill.addEventListener('click', () => {
+          navigator.clipboard.writeText(DATA.email).then(() => {
+            el.emailPill.classList.add('copied');
+            setTimeout(() => el.emailPill.classList.remove('copied'), 1500);
+          });
+        });
         el.calendlyPill.href = DATA.calendly;
 
         // Render static content
